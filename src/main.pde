@@ -1,3 +1,17 @@
+
+
+
+// Dando erro, tá funcionando
+// é pra testar se tá com as coisa instalada
+
+
+
+
+
+
+
+
+
 /**
  * Alpha Mask.
  *
@@ -11,7 +25,7 @@ PImage imgMask;
 
 void setup() {
   size(640, 360);
-  img = loadImage("moonwalk.jpg");
+  img = loadImage("moonwalk.jpg"); 
   imgMask = loadImage("mask.jpg");
   img.mask(imgMask);
   imageMode(CENTER);
