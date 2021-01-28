@@ -1,37 +1,56 @@
+// Quadradinho/Tijolo do jogo (voxel 2d)
 class Tile {
   static final float tamanho = 40; // tamanho em pixel do quadrado (provisorio)
-  int x; //posição do tile a respeito do mundo
+  int num_tile; //posição do tile a respeito do mundo
   float r, g, b; // cores provisorias
   Estrutura estrutura;
 
-  public Tile(int x) {
-    this.x = x;
+  float x, y;
+
+  public Tile(int i) {
+    this.num_tile = i; // Posição x
+    this.estrutura = null; // Caso a tile esteja ocupada
     this.r = random(0, 255);
     this.g = random(0, 255);
     this.b = random(0, 255);
-    this.estrutura = null;
   }
 
 
   //TODO: add metodo de add estrutura
-  
+
+  public Base set_base() {
+    Base b = new Base();
+    this.add_estrutura(b);
+    return b;
+  }
+
+
+  public void add_estrutura(Estrutura e) {
+    this.estrutura = e;
+  }
+
   public void desenhar(float camera_x) {
-    float x  = this.x * this.tamanho - camera_x;
-    float y =  height/2 + 70;
-    if((x + this.tamanho < 0 || x > width) || (y + this.tamanho < 0 || y > height)) { return; }
-    
-    //println("tile " + this.x + " desenhada");
+    this.x  = this.num_tile * this.tamanho - camera_x; // Calcula posição do tile no eixo x
+    this.y =  height/2 + 70; // tamanho em pixel do quadrado (provisorio)
+
+
+    if((this.x + this.tamanho < 0 || this.x > width) || (this.y + this.tamanho < 0 || this.y > height)) { return; }
+
+    println("tile " + this.x + " desenhada");
     //codigo provisorio pra desenhar o chão
     fill(this.r, this.g, this.b);
     strokeWeight(0);
-    rect(this.x * this.tamanho - camera_x, height/2 + 70, this.tamanho, this.tamanho);
+    rect(this.x, this.y, this.tamanho, this.tamanho);
     noFill();
 
     // se não tem estrutura aqui, não desenha ela
     if(this.estrutura != null) {
+      // Lugar daquela estrutura
+      this.estrutura.x_off = this.x;
+      this.estrutura.y_off = this.y;
       this.estrutura.desenhar(camera_x);
     }
-    
+
   }
-  
+
 }

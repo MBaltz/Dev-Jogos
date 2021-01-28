@@ -4,7 +4,7 @@ float camera_x;
 void setup() {
   int num_tiles = 100; // num de tiles q vai ter no mundo
   mundo = new Mundo(num_tiles); // cria um mundo com o numero de tiles
-  camera_x = (Tile.tamanho * num_tiles) / 2; // centraliza a camera no tile do meio
+  camera_x = -width/2; // centraliza a camera no tile do meio
   orientation(LANDSCAPE); // modo paisagem no celular
   fullScreen(); // tela cheia
 }
