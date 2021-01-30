@@ -13,10 +13,10 @@ class Tile {
     this.r = random(0, 255);
     this.g = random(0, 255);
     this.b = random(0, 255);
+    
+    this.y =  height/2 + 70; // tamanho em pixel do quadrado (provisorio)
   }
 
-
-  //TODO: add metodo de add estrutura
 
   public Base set_base() {
     Base b = new Base();
@@ -31,12 +31,11 @@ class Tile {
 
   public void desenhar(float camera_x) {
     this.x  = this.num_tile * this.tamanho - camera_x; // Calcula posição do tile no eixo x
-    this.y =  height/2 + 70; // tamanho em pixel do quadrado (provisorio)
 
 
     if((this.x + this.tamanho < 0 || this.x > width) || (this.y + this.tamanho < 0 || this.y > height)) { return; }
 
-    println("tile " + this.x + " desenhada");
+    // println("tile " + this.x + " desenhada");
     //codigo provisorio pra desenhar o chão
     fill(this.r, this.g, this.b);
     strokeWeight(0);
@@ -52,5 +51,7 @@ class Tile {
     }
 
   }
+
+  public void clicar(float x, float y) {} //TODO
 
 }
