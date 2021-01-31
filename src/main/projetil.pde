@@ -54,12 +54,4 @@ class Projetil {
     // }
 
   }
-
-  public void desenhar(float camera_x) {
-    stroke(255, 200, 200); fill(255, 200, 200);
-    float ponta_x = this.x - this.tamanho * cos(this.angulo);
-    float ponta_y = this.y - this.tamanho * sin(this.angulo);
-    line(this.x+-camera_x, this.y, ponta_x+-camera_x, ponta_y);
-  }
-
 }

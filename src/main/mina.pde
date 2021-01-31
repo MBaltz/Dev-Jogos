@@ -1,4 +1,8 @@
 class Mina extends Estrutura {
-  public void atualizar() {}
-  public void desenhar(float camera_x) {}
+
+  public Mina() {
+    this.tipo = Tipo_Estrutura.MINA;
+  }
+  
+  public void atualizar(float dt) {}
 }

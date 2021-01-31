@@ -30,34 +30,5 @@ class Mundo {
     this.player.atualizar(dt);
   }
 
-  
-  public void desenhar(float camera_x) {
 
-    //desenha o piso
-    for (int i = 0; i < this.tiles.size(); i++) {
-      this.tiles.get(i).desenhar(camera_x);
-    }
-
-    //desenha os inimigos
-
-    
-    //desenha o player
-    this.player.desenhar(camera_x);
-
-  }
-
-  public void clicar(float x, float y) {
-
-    if(y > height/2 + 70 + Tile.tamanho) {
-      this.player.clicar(x, y);
-      return;
-    }
-
-    for (int i = 0; i < this.tiles.size(); i++) {
-      this.tiles.get(i).clicar(x, y);
-    }   
-    
-  }
-
-  
 }
