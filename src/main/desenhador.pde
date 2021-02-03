@@ -1,8 +1,12 @@
 class Desenhador {
   float camera_x;
   Mundo mundo_clone;
+
+  float seta_x1, seta_x2, seta_y, seta_largura, seta_altura;
   
-  public void desenhar(Mundo mundo, float camera_x) {
+  public void desenhar(Mundo mundo, Camera camera_obj) {
+
+    float camera_x = camera_obj.get_pos();
     this.camera_x = camera_x;
     // a ideia é que mundo clone seja objeto-copia de mundo, e não uma referencia, assim pode mandar pra outra thread sem problemas
     // mas já que não tem como mandar pra outras thread, pelo menos o acesso pela thread de atualizar não fica concorrido com essa
@@ -73,6 +77,31 @@ class Desenhador {
     image(player.seta_img, player.seta_esq_x, player.seta_y_off, player.seta_largura_img, player.seta_altura_img); //desenha a imagem
     popMatrix(); // descarta o scale e mas a seta fica renderizada
     image(player.seta_img, player.seta_dir_x, player.seta_y_off, player.seta_largura_img, player.seta_altura_img);
+
+    this.seta_largura = player.seta_largura_img;
+    this.seta_altura = player.seta_altura_img;
+    
+    this.seta_y = player.seta_y_off;
+
+    this.seta_x1 = player.seta_esq_x + 2* this.seta_largura;
+    this.seta_x2 = player.seta_dir_x;
+  }
+
+  public boolean mouse_na_regiao_controles() {
+    boolean retorno = false;
+    float x = mouseX;
+    float y = mouseY;
+
+    // x e y estão na seta da esqueda de controle de movimento do player?
+    retorno |= (x > this.seta_x1 && x < this.seta_x1 + this.seta_largura)
+      && (y > this.seta_y && y < this.seta_y + this.seta_altura);
+
+    // x e y estão na seta da direita de controle de movimento do player?
+    retorno |= (x > this.seta_x2 && x < this.seta_x2 + this.seta_largura)
+      && (y > this.seta_y && y < this.seta_y + this.seta_altura);
+
+    return retorno;
+    
   }
 
 
