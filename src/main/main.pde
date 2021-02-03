@@ -5,19 +5,44 @@ Entrada entrada_obj;
 int fps = 30;
 int num_tiles = 100;
 
+boolean jogo_carregado = false;
+String msg_carregamento = "";
+
 void setup() {
   frameRate(fps);
-  
-  mundo = new Mundo(num_tiles); // cria um mundo com o numero de tiles
-  desenhador = new Desenhador();
-  camera_obj = new Camera(-width/2.0); // centraliza a camera no tile do meio
-  entrada_obj = new Entrada(); //Nunca mais precisa, singleton não funciona por causa da linguagem
-  entrada_obj.setar_desenhador(desenhador);
-  entrada_obj.setar_camera(camera_obj);
-  
   orientation(LANDSCAPE); // modo paisagem no celular
   //fullScreen(); // tela cheia
   size(1130, 720);
+  thread("carregar_jogo");
+}
+
+
+void carregar_jogo() {
+  
+  msg_carregamento = "Criando mundo...";
+  mundo = new Mundo(num_tiles); // cria um mundo com o numero de tiles
+  msg_carregamento = "Mundo criado.";
+
+  
+  msg_carregamento = "Criando renderizador...";
+  desenhador = new Desenhador();
+  msg_carregamento = "Renderizador criado.";
+
+  
+  msg_carregamento = "Criando camera...";
+  camera_obj = new Camera(-width/2.0); // centraliza a camera no tile do meio
+  msg_carregamento = "Camera criada.";
+
+  
+  msg_carregamento = "Criando Handler de entrada...";
+  entrada_obj = new Entrada(); //Nunca mais precisa, singleton não funciona por causa da linguagem
+  entrada_obj.setar_desenhador(desenhador);
+  entrada_obj.setar_camera(camera_obj);
+  msg_carregamento = "Handler de entrada criado.";
+
+  
+  msg_carregamento = "Tudo ok";
+  jogo_carregado = true;
   thread("atualizar");
 }
 
@@ -40,15 +65,33 @@ void atualizar() {
 
 void draw() {
   background(0);
-  desenhador.desenhar(mundo, camera_obj); // desenha levando em consideração a posição da camera
+
+  if(jogo_carregado) {
+    desenhador.desenhar(mundo, camera_obj); // desenha levando em consideração a posição da camera
+  }
+  else {
+    desenhar_tela_carregamento();
+  }
+}
+
+
+void desenhar_tela_carregamento() {
+  background(0);
+  textAlign(CENTER);
+  delay(200);
+  text(msg_carregamento, width/2, height/2); 
 }
 
 void mouseDragged() { // apertou e arrastou pra mover a camera
-  float diff = mouseX - pmouseX; // direção do arrasto
-  //TODO: só atualizar se não chegou nos limites do mapa
-  Entrada.instancia().mover(diff); // atualiza a camera
+  if(jogo_carregado) {
+    float diff = mouseX - pmouseX; // direção do arrasto
+    //TODO: só atualizar se não chegou nos limites do mapa
+    Entrada.instancia().mover(diff); // atualiza a camera
+  }
 }
 
 void mouseClicked() {
-  Entrada.instancia().clicar();
+  if(jogo_carregado) {
+    Entrada.instancia().clicar();
+  }
 }
