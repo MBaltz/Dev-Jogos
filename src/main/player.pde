@@ -15,7 +15,11 @@ class Player {
     this.x = Tile.tamanho / 2;
     this.y = height / 2 + 70 - this.tamanho / 2;
 
-    this.seta_img = loadImage("../assets/seta.png");
+
+    final String PPATH="assets/texturas/";
+    final String FN="seta.png";
+
+    this.seta_img = loadImage(PPATH+FN);
     this.seta_largura_img = width / 8;
     this.seta_altura_img = height / 8;
     this.seta_margens = width / 16;

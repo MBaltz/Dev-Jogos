@@ -66,7 +66,7 @@ class Desenhador {
     //TODO: verificar se tá na tela
 
     this.desenhar_setas_player(player);
-    noFill();
+    fill(70, 80, 0);
     stroke(255, 0, 0);
     ellipse(player.x - this.camera_x, player.y, player.tamanho, player.tamanho);
   }
