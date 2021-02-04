@@ -29,7 +29,7 @@ class Player {
     this.seta_esq_x_real = -this.seta_esq_x - this.seta_largura_img;
   }
 
-  public void atualizar(float dt) {
+  public void atualizar(float dt, float tamanho_x_mapa) {
 
     if(mousePressed == true) {
       float x = mouseX;
@@ -39,7 +39,8 @@ class Player {
       if(x >= this.seta_esq_x_real
          && x <= this.seta_esq_x_real + this.seta_largura_img
          && y >= this.seta_y_off
-         && y < this.seta_y_off + this.seta_altura_img) {
+         && y < this.seta_y_off + this.seta_altura_img
+         && this.x > -tamanho_x_mapa/2) {
         this.x -= 5;
       }
 
@@ -47,7 +48,8 @@ class Player {
       if (x >= this.seta_dir_x
          && x <= this.seta_dir_x + this.seta_largura_img
          && y >= this.seta_y_off
-         && y < this.seta_y_off + this.seta_altura_img) {
+         && y < this.seta_y_off + this.seta_altura_img
+         && this.x < tamanho_x_mapa/2) {
         this.x += 5;
       }
     }
