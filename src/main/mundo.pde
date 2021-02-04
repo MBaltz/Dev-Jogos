@@ -33,6 +33,8 @@ class Mundo {
     // pra test
     Inimigo i1 = new Inimigo(-190);
     this.inimigos.add(i1);
+    Inimigo i2 = new Inimigo(40);
+    this.inimigos.add(i2);
     Torre t1 = new Torre(-50);
     this.torres.add(t1);
 

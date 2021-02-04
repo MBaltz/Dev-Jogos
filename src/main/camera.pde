@@ -8,7 +8,7 @@ class Camera {
   public Camera(float pos) {
     this.x = pos;
   }
-  
+
   public void mover(float dx) {
     this.x -= dx;
   }
