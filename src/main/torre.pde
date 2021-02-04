@@ -40,7 +40,7 @@ class Torre extends Estrutura {
       // Só atira se tiver algum inimigo próximo da torre
       if(!ini_mais_perto.morto) {
         // Torre atira no inimigo mais perto
-        Projetil p = new Projetil(this.x_off, this.y_off, ini_mais_perto.x, ini_mais_perto.y*1.03);
+        Projetil p = new Projetil(this.x_off, this.y_off, ini_mais_perto.x, ini_mais_perto.y);
         projeteis.add(p); // Mete bala no bicho
       }
     }

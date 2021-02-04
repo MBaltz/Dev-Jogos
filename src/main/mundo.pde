@@ -8,6 +8,7 @@ class Mundo {
   ArrayList<Tile> tiles;
   ArrayList<Torre> torres;
   ArrayList<Projetil> projeteis;
+  float tamanho_x_mapa; // Tamanho do mundo no eixo x
 
   public Mundo(int num_tiles) {
     this.player   = new Player();
@@ -15,6 +16,7 @@ class Mundo {
     this.tiles    = new ArrayList<Tile>();
     this.torres    = new ArrayList<Torre>();
     this.projeteis    = new ArrayList<Projetil>();
+    this.tamanho_x_mapa = num_tiles*Tile.tamanho; // p/ calcular borda do mapa
 
 
     // Tiles:      0=base
@@ -35,10 +37,12 @@ class Mundo {
     this.inimigos.add(i1);
     Inimigo i2 = new Inimigo(40);
     this.inimigos.add(i2);
-    Torre t1 = new Torre(-50);
+    // Cria torre centralizada
+    Torre t1 = new Torre(Tile.tamanho*-2+Tile.tamanho/2-12.5);
     this.torres.add(t1);
-
-
+    // Sumindo do mapa test
+    Projetil p = new Projetil(0, 200, 100, 200);
+    this.projeteis.add(p);
   }
 
   public void atualizar(float dt) {
@@ -47,8 +51,7 @@ class Mundo {
       t.atualizar(dt);
     }
 
-    
-    this.player.atualizar(dt);
+    this.player.atualizar(dt, tamanho_x_mapa);
 
     for(Inimigo i : inimigos) {
       if(!i.morto) {
@@ -65,7 +68,7 @@ class Mundo {
 
     for(Projetil p : projeteis) {
       if(p.ativo) {
-        p.atualizar(dt);
+        p.atualizar(dt, inimigos, tamanho_x_mapa);
       }
     }
   }
