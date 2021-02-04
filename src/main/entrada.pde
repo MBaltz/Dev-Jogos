@@ -11,6 +11,8 @@ static class Entrada {
   Desenhador desenhador_ref;
   Camera camera_ref;
   static boolean pediu_pra_fechar = false;
+  static float clique_x;
+  static float clique_y;
 
   public Entrada() {
 
@@ -41,14 +43,16 @@ static class Entrada {
 
   // Mover mover camera
   public void mover(float dx) {
-    if(this.desenhador_ref.mouse_na_regiao_controles()) {
+    if(this.desenhador_ref.mouse_na_regiao_controles() || desenhador_ref.tem_popup()) {
       return;
     }
     this.camera_ref.mover(dx);
   }
 
-  public void clicar() {
+  public void clicar(float x, float y) {
     this.clicado = true;
+    this.clique_x = x;
+    this.clique_y = y;
   }
 
   public void limpar_clique() {

@@ -4,6 +4,8 @@ class Desenhador {
 
   float seta_x1, seta_x2, seta_y, seta_largura, seta_altura;
 
+  private boolean tem_popup;
+
   public void desenhar(Mundo mundo, Camera camera_obj) {
 
     float camera_x = camera_obj.get_pos();
@@ -14,63 +16,75 @@ class Desenhador {
     // com a referencia do mesmo numero por agora)
     this.mundo_clone = mundo;
     this.desenhar_mundo(this.mundo_clone);
+    this.tem_popup = false;
+  }
+
+  public boolean tem_popup() {
+    return this.tem_popup;
   }
 
   private void desenhar_mundo(Mundo mundo) {
-    boolean tem_popup = false;
     //desenha o piso, sabendo se o tile tá com um popup aberto
     for (Tile tile : mundo.tiles) {
-      tem_popup |= this.desenhar_tile(tile); //faz um OR com todo mundo pra saber se tem um popup ativo
+      this.tem_popup |= this.desenhar_tile(tile); //faz um OR com todo mundo pra saber se tem um popup ativo
     }
 
-    // Desenha os inimigos
-    // Acaba copiando o arraylist (para evitar problema com a thread)
-    ArrayList<Inimigo> copia_inimigos = new ArrayList<Inimigo>(mundo.inimigos);
-    for(Inimigo i: copia_inimigos) {
-      if(!i.morto) {
-        this.desenhar_inimigo(i);
-      }
-      // TODO: Se o inimigo morrer, fazer ele não sumir do nada
-    }
-
-    // Desenha os Torre
-    // Acaba copiando o arraylist (para evitar problema com a thread)
-    ArrayList<Torre> copia_torres = new ArrayList<Torre>(mundo.torres);
-    for(Torre t : copia_torres) {
-      if(!t.morreu) {
-        this.desenhar_torre(t);
-      }
-      // TODO: Se a torre morer, fazer ela ir sumindo aos poucos
-    }
-
-    // Desenha os Projeteis
-    // Acaba copiando o arraylist (para evitar problema com a thread)
-    ArrayList<Projetil> copia_projeteis = new ArrayList<Projetil>(mundo.projeteis);
-    for(Projetil p : copia_projeteis) {
-      if(p.ativo) {
-        this.desenhar_projetil(p);
-      }
-    }
-
-
+    //tudo bem ter desenhado as tiles, são só elas mesmo
     if(!tem_popup) { // se não tiver popup
+      // Desenha os inimigos
+      // Acaba copiando o arraylist (para evitar problema com a thread)
+      ArrayList<Inimigo> copia_inimigos = new ArrayList<Inimigo>(mundo.inimigos);
+      for(Inimigo i: copia_inimigos) {
+        if(!i.morto) {
+          this.desenhar_inimigo(i);
+        }
+        // TODO: Se o inimigo morrer, fazer ele não sumir do nada
+      }
+
+      // Desenha os Torre
+      // Acaba copiando o arraylist (para evitar problema com a thread)
+      ArrayList<Torre> copia_torres = new ArrayList<Torre>(mundo.torres);
+      for(Torre t : copia_torres) {
+        if(!t.morreu) {
+          this.desenhar_torre(t);
+        }
+        // TODO: Se a torre morer, fazer ela ir sumindo aos poucos
+      }
+
+      // Desenha os Projeteis
+      // Acaba copiando o arraylist (para evitar problema com a thread)
+      ArrayList<Projetil> copia_projeteis = new ArrayList<Projetil>(mundo.projeteis);
+      for(Projetil p : copia_projeteis) {
+        if(p.ativo) {
+          this.desenhar_projetil(p);
+        }
+      }
+
+
       //desenha o player
       this.desenhar_player(mundo.player);
     }
   }
 
   private boolean desenhar_tile(Tile tile) {
+    
+    if(tile.em_popup()) {
+      tile.desenhar_popup(); // como aqui é uma coisa a parte, acho que tudo bem isso ficar lá
+      return true; //precisa nem olhar a estrutura
+    }
 
-    boolean retorno_popup = false;
     tile.x  = tile.num_tile * tile.tamanho - this.camera_x; // Calcula posição do tile no eixo x
-    if((tile.x + tile.tamanho < 0 || tile.x > width) || (tile.y + tile.tamanho < 0 || tile.y > height)) { return retorno_popup; }
-
+    
+    if((tile.x + tile.tamanho < 0 || tile.x > width)
+       || (tile.y + tile.tamanho < 0 || tile.y > height)) {
+      return false; // retorna dizendo que nao tem popup
+    }
     //codigo provisorio pra desenhar o chão
     fill(tile.r, tile.g, tile.b);
     strokeWeight(0);
     rect(tile.x, tile.y, tile.tamanho, tile.tamanho);
     noFill();
-
+    
     // se não tem estrutura aqui, não desenha ela
     if(tile.estrutura != null) {
       // Lugar daquela estrutura
@@ -79,7 +93,7 @@ class Desenhador {
       this.desenhar_estrutura(tile.estrutura);
     }
 
-    return retorno_popup; //TODO: verificar popups
+    return false; //não tem popup
   }
 
 

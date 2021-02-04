@@ -40,6 +40,12 @@ class Mundo {
   }
 
   public void atualizar(float dt) {
+
+    for(Tile t : this.tiles) {
+      t.atualizar(dt);
+    }
+
+    
     this.player.atualizar(dt);
 
     for(Inimigo i : inimigos) {
@@ -48,6 +54,7 @@ class Mundo {
       }
     }
 
+    //TODO: mover essa atualização pra atualização de estrutura do tile
     for(Torre t : torres) {
       if(!t.morreu) {
         t.atualizar(dt, inimigos, projeteis);

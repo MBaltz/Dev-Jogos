@@ -2,7 +2,7 @@ Mundo mundo;
 Desenhador desenhador;
 Camera camera_obj;
 int fps = 30;
-int num_tiles = 100;
+int num_tiles = 20;
 
 boolean jogo_carregado = false;
 String msg_carregamento = "";
@@ -104,7 +104,7 @@ void mouseDragged() { // apertou e arrastou pra mover a camera
 
 void mouseClicked() {
   if(jogo_carregado) {
-    Entrada.instancia().clicar();
+    Entrada.instancia().clicar(mouseX, mouseY);
   }
 }
 
