@@ -23,11 +23,37 @@ class Desenhador {
       tem_popup |= this.desenhar_tile(tile); //faz um OR com todo mundo pra saber se tem um popup ativo
     }
 
-    if(!tem_popup) { // se não tiver popup
-      //desenha os inimigos
-      for(Inimigo i: mundo.inimigos) {
+    // Desenha os inimigos
+    // Acaba copiando o arraylist (para evitar problema com a thread)
+    ArrayList<Inimigo> copia_inimigos = new ArrayList<Inimigo>(mundo.inimigos);
+    for(Inimigo i: copia_inimigos) {
+      if(!i.morto) {
         this.desenhar_inimigo(i);
       }
+      // TODO: Se o inimigo morrer, fazer ele não sumir do nada
+    }
+
+    // Desenha os Torre
+    // Acaba copiando o arraylist (para evitar problema com a thread)
+    ArrayList<Torre> copia_torres = new ArrayList<Torre>(mundo.torres);
+    for(Torre t : copia_torres) {
+      if(!t.morreu) {
+        this.desenhar_torre(t);
+      }
+      // TODO: Se a torre morer, fazer ela ir sumindo aos poucos
+    }
+
+    // Desenha os Projeteis
+    // Acaba copiando o arraylist (para evitar problema com a thread)
+    ArrayList<Projetil> copia_projeteis = new ArrayList<Projetil>(mundo.projeteis);
+    for(Projetil p : copia_projeteis) {
+      if(p.ativo) {
+        this.desenhar_projetil(p);
+      }
+    }
+
+
+    if(!tem_popup) { // se não tiver popup
       //desenha o player
       this.desenhar_player(mundo.player);
     }
@@ -57,9 +83,10 @@ class Desenhador {
   }
 
 
-
   private void desenhar_inimigo(Inimigo inimigo) {
-    //TODO: fazer tudo
+    stroke(255, 0, 255);
+    fill(240, 0, 75);
+    rect(inimigo.x-this.camera_x, inimigo.y, 20, 20);
   }
 
   private void desenhar_player(Player player) {
@@ -128,14 +155,16 @@ class Desenhador {
   }
 
   private boolean desenhar_mina(Mina mina) {
-    //TODO: fazer tudo
-
     return false;
   }
 
   private boolean desenhar_torre(Torre torre) {
-    //TODO: fazer tudo
-
+    // Provisório
+    fill(100, 230, 100);
+    strokeWeight(0);
+    float tamanho = 50;
+    rect(torre.x_off - camera_x, torre.y_off, tamanho*0.5, tamanho);
+    noFill();
     return false;
   }
 
@@ -143,7 +172,11 @@ class Desenhador {
     stroke(255, 200, 200); fill(255, 200, 200);
     float ponta_x = projetil.x - projetil.tamanho * cos(projetil.angulo);
     float ponta_y = projetil.y - projetil.tamanho * sin(projetil.angulo);
-    line(projetil.x + -this.camera_x, projetil.y, ponta_x + -this.camera_x, ponta_y);
+    line(projetil.x - this.camera_x, projetil.y, ponta_x - this.camera_x, ponta_y);
   }
 
 }
+
+
+
+//

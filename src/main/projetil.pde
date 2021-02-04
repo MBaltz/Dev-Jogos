@@ -1,15 +1,10 @@
 
 /*
-
 Classe que representa qualquer tipo de projétil disparado por qualquer
 entidade no jogo (seja inimigo ou torre de defesa)
 
 Como entrada par ao construtor, tem-se a posição de partida do projétil e
 a posição do alvo.
-
-Forma de uso:
-Projetil p = new Projetil(mouseX+camera_x, mouseY, alvo_x+camera_x, alvo_y);
-
 */
 class Projetil {
 
@@ -27,23 +22,23 @@ class Projetil {
     // Posição do projétil
     this.x = inicio_x;
     this.y = inicio_y;
-    this.velocidade = 1.0;
+    this.velocidade = 95.0;
 
     // Cálculo do ângulo que o projétil irá seguir
     // EVIDENCIAR QUE É (Y, X), E NÃO (X, Y)!!!!!!
     this.angulo = atan2(alvo_y-inicio_y, alvo_x-inicio_x);
 
     // Tamanho do traço/elipse
-    this.tamanho = 20;
+    this.tamanho = 16;
 
     // Esse atributo é para realizar indicar que o dado projétil já
     // está inválido e pode ser apagado
     this.ativo = true;
   }
 
-  public void atualizar() {
-    this.x = this.x + cos(this.angulo) * this.velocidade;
-    this.y = this.y + sin(this.angulo) * this.velocidade;
+  public void atualizar(float dt) {
+    this.x = this.x + cos(this.angulo) * this.velocidade * dt;
+    this.y = this.y + sin(this.angulo) * this.velocidade * dt;
     // Se bater na borda superior ou inferior, ele desativa o projetil
     if(this.y > height/2+70+this.tamanho || this.y < 0) {
       this.ativo = false;
