@@ -11,7 +11,7 @@ class Inimigo {
 
     this.vida = 5;
     this.dano = 0.55;
-    this.velocidade = 10.5;
+    this.velocidade = 20.5;
     this.atacando = false;
     this.morto = false;
   }

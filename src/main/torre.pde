@@ -3,12 +3,18 @@ class Torre extends Estrutura {
   float vida, cadencia, alcance, dt_soma_cadencia;
   int nivel; // Níveis de desenvolvimento da torre
   // Quando a torre morre, ela não precisa necessariamente sumir de vez
-  boolean morreu = false;
+  int idx_tile;
+  ArrayList<Projetil> projeteis;
+  ArrayList<Inimigo> inimigos;
 
-  public Torre(float x_off_inicial) {
+  public Torre(float x_off_inicial, ArrayList<Projetil> projeteis, ArrayList<Inimigo> inimigos) {
     this.tipo = Tipo_Estrutura.TORRE;
 
-    this.x_off = x_off_inicial;
+    this.projeteis = projeteis;
+    this.inimigos = inimigos;
+    
+    this.idx_tile = (int) x_off_inicial;
+    this.x_off  = x_off_inicial * Tile.tamanho;
     this.y_off = height/2 + 20;
     this.vida = 50;
     this.cadencia = 1; // x disparos por segundo
@@ -17,12 +23,9 @@ class Torre extends Estrutura {
     this.alcance = 100; // Alcance de inimigos em pixels
   }
 
-  // Overload (Não da pra usar o método da classe abstrata nesse caso)
-  public void atualizar(float dt) {}
-
-  // Atualiza a torre de acordo com os inimigos por perto
-  // E também acaba afetando os projéteis, já que a torre pode atirar num inimigo
-  public void atualizar(float dt, ArrayList<Inimigo> inimigos, ArrayList<Projetil> projeteis) {
+  public void atualizar(float dt) {
+    // Atualiza a torre de acordo com os inimigos por perto
+    // E também acaba afetando os projéteis, já que a torre pode atirar num inimigo
     this.dt_soma_cadencia += dt;
     if(this.dt_soma_cadencia >= 1/this.cadencia) { // Cadência de disparo
       this.dt_soma_cadencia = 0; // Reseta somador
@@ -30,7 +33,7 @@ class Torre extends Estrutura {
       Inimigo ini_mais_perto = new Inimigo(0); ini_mais_perto.morto = true;
       float dist_ini_perto = 9999999; // Lááá longe
       // Pega o inimigo mais perto da torre
-      for(Inimigo i : inimigos) {
+      for(Inimigo i : this.inimigos) {
         float dist_i = abs(this.x_off - i.x);
         if(!i.morto && dist_i <= this.alcance && dist_i < dist_ini_perto) {
           ini_mais_perto = i;
@@ -40,8 +43,8 @@ class Torre extends Estrutura {
       // Só atira se tiver algum inimigo próximo da torre
       if(!ini_mais_perto.morto) {
         // Torre atira no inimigo mais perto
-        Projetil p = new Projetil(this.x_off, this.y_off, ini_mais_perto.x, ini_mais_perto.y);
-        projeteis.add(p); // Mete bala no bicho
+        Projetil p = new Projetil(this.x_off + Tile.tamanho/2, this.y_off, ini_mais_perto.x, ini_mais_perto.y);
+        this.projeteis.add(p); // Mete bala no bicho
       }
     }
   }

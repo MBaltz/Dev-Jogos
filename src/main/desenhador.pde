@@ -8,8 +8,7 @@ class Desenhador {
 
   public void desenhar(Mundo mundo, Camera camera_obj) {
 
-    float camera_x = camera_obj.get_pos();
-    this.camera_x = camera_x;
+    this.camera_x = camera_obj.get_pos();
     // a ideia é que mundo clone seja objeto-copia de mundo, e não uma referencia, assim pode mandar pra outra thread sem problemas
     // mas já que não tem como mandar pra outras thread, pelo menos o acesso pela thread de atualizar não fica concorrido com essa
     // de desenho, já que ficam dois objetos distintos na memoria (mas isso pode causar um problema de memoria, por isso vamo ficando
@@ -41,16 +40,7 @@ class Desenhador {
         // TODO: Se o inimigo morrer, fazer ele não sumir do nada
       }
 
-      // Desenha os Torre
-      // Acaba copiando o arraylist (para evitar problema com a thread)
-      ArrayList<Torre> copia_torres = new ArrayList<Torre>(mundo.torres);
-      for(Torre t : copia_torres) {
-        if(!t.morreu) {
-          this.desenhar_torre(t);
-        }
-        // TODO: Se a torre morer, fazer ela ir sumindo aos poucos
-      }
-
+      
       // Desenha os Projeteis
       // Acaba copiando o arraylist (para evitar problema com a thread)
       ArrayList<Projetil> copia_projeteis = new ArrayList<Projetil>(mundo.projeteis);
@@ -73,24 +63,24 @@ class Desenhador {
       return true; //precisa nem olhar a estrutura
     }
 
-    tile.x  = tile.num_tile * tile.tamanho - this.camera_x; // Calcula posição do tile no eixo x
+    float tile_x  = tile.x - this.camera_x; // Calcula posição do tile no eixo x
+    tile.x_com_camera  = tile.x - this.camera_x; // Calcula posição do tile no eixo x
     
-    if((tile.x + tile.tamanho < 0 || tile.x > width)
+    if((tile_x + tile.tamanho < 0 || tile_x > width)
        || (tile.y + tile.tamanho < 0 || tile.y > height)) {
       return false; // retorna dizendo que nao tem popup
     }
+
+    
     //codigo provisorio pra desenhar o chão
     fill(tile.r, tile.g, tile.b);
     strokeWeight(0);
-    rect(tile.x, tile.y, tile.tamanho, tile.tamanho);
+    rect(tile_x, tile.y, tile.tamanho, tile.tamanho);
     noFill();
     
     // se não tem estrutura aqui, não desenha ela
     if(tile.estrutura != null) {
-      // Lugar daquela estrutura
-      tile.estrutura.x_off = tile.x;
-      tile.estrutura.y_off = tile.y;
-      this.desenhar_estrutura(tile.estrutura);
+      this.desenhar_estrutura(tile.estrutura, tile_x, tile.y);
     }
 
     return false; //não tem popup
@@ -100,7 +90,7 @@ class Desenhador {
   private void desenhar_inimigo(Inimigo inimigo) {
     stroke(255, 0, 255);
     fill(240, 0, 75);
-    rect(inimigo.x-this.camera_x, inimigo.y, 20, 20);
+    rect(inimigo.x - this.camera_x, inimigo.y, 20, 20);
   }
 
   private void desenhar_player(Player player) {
@@ -109,7 +99,7 @@ class Desenhador {
     this.desenhar_setas_player(player);
     fill(70, 80, 0);
     stroke(255, 0, 0);
-    ellipse(player.x - this.camera_x, player.y, player.tamanho, player.tamanho);
+    ellipse(player.x_local - this.camera_x, player.y_local, player.tamanho, player.tamanho);
   }
 
   private void desenhar_setas_player(Player player) {
@@ -147,37 +137,39 @@ class Desenhador {
 
 
 
-  private boolean desenhar_estrutura(Estrutura estrutura) {
+  private boolean desenhar_estrutura(Estrutura estrutura, float x, float y) {
     //TODO: verificar se ta dentro da tela (mesmo que a tile já tenha feito isso?)
 
-
-    if(estrutura.tipo == Tipo_Estrutura.BASE) { return this.desenhar_base((Base) estrutura); }
-    if(estrutura.tipo == Tipo_Estrutura.MINA) { return this.desenhar_mina((Mina) estrutura); }
-    if(estrutura.tipo == Tipo_Estrutura.TORRE) { return this.desenhar_torre((Torre) estrutura); }
+    if(estrutura.tipo == Tipo_Estrutura.BASE) { return this.desenhar_base((Base) estrutura, x, y); }
+    if(estrutura.tipo == Tipo_Estrutura.MINA) { return this.desenhar_mina((Mina) estrutura, x, y); }
+    if(estrutura.tipo == Tipo_Estrutura.TORRE) { return this.desenhar_torre((Torre) estrutura, x, y); }
 
     return true;
   }
 
-  private boolean desenhar_base(Base base) {
+  private boolean desenhar_base(Base base, float x, float y) {
     // Provisório
     fill(180, 170, 170);
     strokeWeight(0);
     float tamanho = 50;
-    rect(base.x_off + Tile.tamanho / 4, base.y_off - tamanho, Tile.tamanho/2, tamanho);
+    rect(x + Tile.tamanho / 4, y - tamanho, Tile.tamanho/2, tamanho);
     noFill();
     return false;
   }
 
-  private boolean desenhar_mina(Mina mina) {
+  private boolean desenhar_mina(Mina mina, float x, float y) {
     return false;
   }
 
-  private boolean desenhar_torre(Torre torre) {
+  private boolean desenhar_torre(Torre torre, float x, float y) {
+
+    if (torre.morreu) { return false; }
+    
     // Provisório
     fill(100, 230, 100);
     strokeWeight(0);
     float tamanho = 50;
-    rect(torre.x_off - camera_x, torre.y_off, tamanho*0.5, tamanho);
+    rect(x + Tile.tamanho / 4, y - tamanho, Tile.tamanho/2, tamanho);
     noFill();
     return false;
   }

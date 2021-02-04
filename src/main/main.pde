@@ -2,7 +2,7 @@ Mundo mundo;
 Desenhador desenhador;
 Camera camera_obj;
 int fps = 30;
-int num_tiles = 20;
+int num_tiles = 100;
 
 boolean jogo_carregado = false;
 String msg_carregamento = "";

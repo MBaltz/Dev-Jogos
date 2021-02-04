@@ -11,6 +11,6 @@ abstract class Estrutura {
   public float x_off;
   public float y_off;
   public Tipo_Estrutura tipo;
-
+  public boolean morreu = false;
   public abstract void atualizar(float dt);
 }

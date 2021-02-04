@@ -10,12 +10,13 @@ class Tile {
   public final Minerio minerio_2;
   public final Minerio minerio_3;
 
-  float x, y;
+  float x, y, x_com_camera;
 
   private Popup popup;
 
   public Tile(int i) {
     this.num_tile = i; // Posição x
+    this.x = i * Tile.tamanho;
     this.estrutura = null; // Caso a tile esteja ocupada
     this.r = random(0, 255);
     this.g = random(0, 255);
@@ -46,6 +47,12 @@ class Tile {
     return b;
   }
 
+  public Torre set_torre(ArrayList<Projetil> projeteis, ArrayList<Inimigo> inimigos) {
+    Torre t = new Torre(this.num_tile, projeteis, inimigos);
+    this.add_estrutura(t);
+    return t;
+  }
+
   public void add_estrutura(Estrutura e) {
     this.estrutura = e;
   }
@@ -61,18 +68,32 @@ class Tile {
     return ret;
   }
 
-  public void atualizar(float dt) {
+  public Estrutura atualizar(float dt) {
 
     if(Entrada.instancia().clicado()) {
 
       float clique_x = Entrada.instancia().clique_x;
       float clique_y = Entrada.instancia().clique_y;
 
-      if(clique_x > this.x && clique_x < this.x + Tile.tamanho && clique_y > this.y && clique_y < this.y + Tile.tamanho) {
+      if(clique_x > this.x_com_camera && clique_x < this.x_com_camera + Tile.tamanho && clique_y > this.y && clique_y < this.y + Tile.tamanho) {
+        println(this);
         Entrada.instancia().limpar_clique();
         this.popup = new Popup(this);
       }
     }
+
+    if(this.estrutura != null) {
+      this.estrutura.atualizar(dt);
+
+      if(this.estrutura.morreu) {
+        Estrutura tmp = this.estrutura;
+        // depois que remover aqui, quando remover no array do mundo (que vou tentar remover), o garbage collector limpa
+        this.estrutura = null;
+        return tmp;
+      }
+    }
+
+    return null;
   }
 
 
