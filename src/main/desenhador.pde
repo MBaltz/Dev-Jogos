@@ -3,7 +3,7 @@ class Desenhador {
   Mundo mundo_clone;
 
   float seta_x1, seta_x2, seta_y, seta_largura, seta_altura;
-  
+
   public void desenhar(Mundo mundo, Camera camera_obj) {
 
     float camera_x = camera_obj.get_pos();
@@ -15,7 +15,7 @@ class Desenhador {
     this.mundo_clone = mundo;
     this.desenhar_mundo(this.mundo_clone);
   }
-  
+
   private void desenhar_mundo(Mundo mundo) {
     boolean tem_popup = false;
     //desenha o piso, sabendo se o tile tá com um popup aberto
@@ -57,7 +57,7 @@ class Desenhador {
   }
 
 
-  
+
   private void desenhar_inimigo(Inimigo inimigo) {
     //TODO: fazer tudo
   }
@@ -80,7 +80,7 @@ class Desenhador {
 
     this.seta_largura = player.seta_largura_img;
     this.seta_altura = player.seta_altura_img;
-    
+
     this.seta_y = player.seta_y_off;
 
     this.seta_x1 = player.seta_esq_x + 2* this.seta_largura;
@@ -101,7 +101,7 @@ class Desenhador {
       && (y > this.seta_y && y < this.seta_y + this.seta_altura);
 
     return retorno;
-    
+
   }
 
 
@@ -118,7 +118,7 @@ class Desenhador {
   }
 
   private boolean desenhar_base(Base base) {
-    //provisorio
+    // Provisório
     fill(180, 170, 170);
     strokeWeight(0);
     float tamanho = 50;
@@ -135,7 +135,7 @@ class Desenhador {
 
   private boolean desenhar_torre(Torre torre) {
     //TODO: fazer tudo
-    
+
     return false;
   }
 
@@ -145,5 +145,5 @@ class Desenhador {
     float ponta_y = projetil.y - projetil.tamanho * sin(projetil.angulo);
     line(projetil.x + -this.camera_x, projetil.y, ponta_x + -this.camera_x, ponta_y);
   }
-  
+
 }

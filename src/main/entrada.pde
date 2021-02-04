@@ -1,4 +1,10 @@
+/*
+Classe que administra o input do clique
+  (Para uma melhor organização, no entanto, não da pra colocar tudo nela, pela
+  limitação que a linguagem coloca por ser estática)
+*/
 static class Entrada {
+
   private static int num_instancias = 0;
   static Entrada instancia;
   boolean clicado = false;
@@ -13,8 +19,11 @@ static class Entrada {
       System.err.println("Use: Entrada.instancia() para pegar um objeto de Entrada");
       Entrada.pediu_pra_fechar = true;
     }
-    
+
     num_instancias++;
+    // Para utilizar os métodos como estáticos
+    // No main: Entrada.instancia.metodo(), ao invés de Estrutura.metodo()
+    // Dessa maneira, o método pode utilizar o this.
     this.instancia = this;
   }
 
@@ -30,6 +39,7 @@ static class Entrada {
     this.camera_ref = camera_ref;
   }
 
+  // Mover mover camera
   public void mover(float dx) {
     if(this.desenhador_ref.mouse_na_regiao_controles()) {
       return;

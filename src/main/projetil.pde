@@ -48,7 +48,7 @@ class Projetil {
     if(this.y > height/2+70+this.tamanho || this.y < 0) {
       this.ativo = false;
     }
-    // TODO: Fazer verificação de quando o prjétil sai do mapa pelas laterais
+    // TODO: Fazer verificação de quando o projétil sai do mapa pelas laterais
     // else if (this.x < -limite_x/2 || this.x > limite_x/2) {
     //   this.ativo = false;
     // }

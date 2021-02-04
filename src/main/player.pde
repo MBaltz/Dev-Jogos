@@ -28,30 +28,29 @@ class Player {
     this.seta_dir_x = width - this.seta_largura_img - this.seta_margens;
     this.seta_esq_x_real = -this.seta_esq_x - this.seta_largura_img;
   }
-  
+
   public void atualizar(float dt) {
 
     if(mousePressed == true) {
-      //checa se clicou na seta esquerda
       float x = mouseX;
       float y = mouseY;
+
+      //checa se clicou na seta esquerda
       if(x >= this.seta_esq_x_real
          && x <= this.seta_esq_x_real + this.seta_largura_img
          && y >= this.seta_y_off
          && y < this.seta_y_off + this.seta_altura_img) {
         this.x -= 5;
-        return;
       }
 
       //checa se clicou na seta direita
-      if(x >= this.seta_dir_x
+      if (x >= this.seta_dir_x
          && x <= this.seta_dir_x + this.seta_largura_img
          && y >= this.seta_y_off
          && y < this.seta_y_off + this.seta_altura_img) {
         this.x += 5;
-        return;
       }
     }
-    
+
   }
 }
