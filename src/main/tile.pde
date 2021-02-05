@@ -13,8 +13,10 @@ class Tile {
   float x, y, x_com_camera;
 
   private Popup popup;
+  private Mundo mundo_ref;
 
-  public Tile(int i) {
+  public Tile(int i, Mundo mundo_ref) {
+    this.mundo_ref = mundo_ref;
     this.num_tile = i; // Posição x
     this.x = i * Tile.tamanho;
     this.estrutura = null; // Caso a tile esteja ocupada
@@ -47,12 +49,14 @@ class Tile {
     return b;
   }
 
-  public void set_torre(Mundo mundo_ref) {
-    this.add_estrutura(new Torre(this.num_tile, mundo_ref));
+  public void set_torre() {
+    this.add_estrutura(new Torre(this.num_tile, this.mundo_ref));
   }
 
   public void add_estrutura(Estrutura e) {
-    this.estrutura = e;
+    if(this.estrutura == null) {
+      this.estrutura = e;
+    }
   }
 
   @Override 
@@ -66,8 +70,9 @@ class Tile {
     return ret;
   }
 
-  public Estrutura atualizar(float dt) {
+  public void atualizar(float dt) {
 
+    //TODO: verificar também se o player ta em cima do tile pra poder abrir o popup
     if(Entrada.clicado() && !Entrada.tem_popup()) {
       float clique_x = Entrada.clique_x;
       float clique_y = Entrada.clique_y;
@@ -79,17 +84,16 @@ class Tile {
     }
 
     if(this.estrutura != null) {
-      this.estrutura.atualizar(dt);
-
       if(this.estrutura.morreu) {
-        Estrutura tmp = this.estrutura;
-        // depois que remover aqui, quando remover no array do mundo (que vou tentar remover), o garbage collector limpa
-        this.estrutura = null;
-        return tmp;
+        this.estrutura = null; //garbage collector vai trabaia
+      } else {
+        this.estrutura.atualizar(dt);
       }
     }
 
-    return null;
+    if(this.popup != null && this.popup.pediu_pra_fechar()) {
+      this.popup = null;
+    }
   }
 
 
@@ -97,7 +101,11 @@ class Tile {
     return this.popup != null;
   }
 
-  public void desenhar_popup() {}
+  public void desenhar_popup() {
+    if(this.popup != null) {
+      this.popup.desenhar();
+    }
+  }
 
 
 }

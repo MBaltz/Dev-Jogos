@@ -24,7 +24,7 @@ class Mundo {
     // Tiles:      0=base
     // [-3, -2, -1, (0), 1, 2, 3, 4]
     for(int i = -num_tiles/2; i < num_tiles/2; i++) {
-      Tile t = new Tile(i);
+      Tile t = new Tile(i, this);
       
       if(i == 0) {
         this.base = t.set_base(); // Cria a base no meio dos tiles
@@ -32,7 +32,7 @@ class Mundo {
 
       int pos_torres = 3;
       if (i == -pos_torres || i == pos_torres) { // duas torres de gratis
-        t.set_torre(this); // a torre toma conhecimento do mundo
+        t.set_torre(); // a torre toma conhecimento do mundo
       }
 
       this.tiles.add(t);

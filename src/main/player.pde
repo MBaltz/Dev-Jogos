@@ -39,6 +39,17 @@ class Player {
 
   public void atualizar(float dt, float tamanho_x_mapa) {
 
+    if(keyPressed) {
+      if(keyCode == LEFT && this.x_local > -tamanho_x_mapa/2){
+        this.x_local -= this.velocidade * dt;
+      }
+
+      if(keyCode == RIGHT && this.x_local < tamanho_x_mapa/2){
+        this.x_local += this.velocidade * dt;
+      }
+ 
+    }
+
     if(mousePressed == true) {
       float x = mouseX;
       float y = mouseY;
