@@ -2,7 +2,7 @@ Mundo mundo;
 Desenhador desenhador;
 Camera camera_obj;
 int fps = 30;
-int num_tiles = 100;
+int num_tiles = 10;
 
 boolean jogo_carregado = false;
 String msg_carregamento = "";
@@ -36,9 +36,8 @@ void carregar_jogo() {
   msg_carregamento = "Criando Handler de entrada...";
   // Nunca mais precisa instanciar de novo (Classe Estática)
   //  (singleton não funciona por causa da linguagem)
-  Entrada entrada_obj = new Entrada();
-  entrada_obj.setar_desenhador(desenhador);
-  entrada_obj.setar_camera(camera_obj);
+  Entrada.desenhador_ref = desenhador;
+  Entrada.camera_ref = camera_obj;
   msg_carregamento = "Handler de entrada criado.";
 
 
@@ -98,13 +97,13 @@ void mouseDragged() { // apertou e arrastou pra mover a camera
   if(jogo_carregado) {
     float diff = mouseX - pmouseX; // direção do arrasto
     //TODO: só atualizar se não chegou nos limites do mapa
-    Entrada.instancia().mover(diff); // atualiza a camera
+    Entrada.mover(diff); // atualiza a camera
   }
 }
 
 void mouseClicked() {
   if(jogo_carregado) {
-    Entrada.instancia().clicar(mouseX, mouseY);
+    Entrada.clicar(mouseX, mouseY);
   }
 }
 

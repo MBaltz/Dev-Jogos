@@ -6,15 +6,17 @@ class Mundo {
   Player player;
   ArrayList<Inimigo> inimigos;
   ArrayList<Tile> tiles;
-  ArrayList<Torre> torres; // TODO: tentar tirar daqui
   ArrayList<Projetil> projeteis;
   float tamanho_x_mapa; // Tamanho do mundo no eixo x
 
+  float spawn_time = 0;
+  int num_spawns = 0;
+  
+
   public Mundo(int num_tiles) {
-    this.player   = new Player();
+    this.player   = new Player(this); // o player toma conhecimento do mundo
     this.inimigos = new ArrayList<Inimigo>();
     this.tiles    = new ArrayList<Tile>();
-    this.torres    = new ArrayList<Torre>();
     this.projeteis    = new ArrayList<Projetil>();
     this.tamanho_x_mapa = num_tiles*Tile.tamanho; // p/ calcular borda do mapa
 
@@ -30,18 +32,10 @@ class Mundo {
 
       int pos_torres = 3;
       if (i == -pos_torres || i == pos_torres) { // duas torres de gratis
-        this.torres.add(t.set_torre(this.projeteis, this.inimigos));
+        t.set_torre(this); // a torre toma conhecimento do mundo
       }
 
       this.tiles.add(t);
-    }
-
-
-    float inimigo_pos = 350;
-    for(int i = 0; i < 10; i++) {
-      this.inimigos.add(new Inimigo(-inimigo_pos));
-      this.inimigos.add(new Inimigo(inimigo_pos));
-      inimigo_pos += 40;
     }
 
   }
@@ -50,21 +44,17 @@ class Mundo {
   
   public void atualizar(float dt) {
 
-    for(Tile t : this.tiles) {
-      Estrutura estrutura_destruida = t.atualizar(dt);
+    this.spawn_time += dt;
 
-      if(estrutura_destruida != null) {
-        //se foi removida a estrutura de tile, então nao deve existir outra referencia, ent garbage collector trabalha
-        if(estrutura_destruida.tipo == Tipo_Estrutura.TORRE) { this.torres.remove((Torre) estrutura_destruida); }
-      }
-      
+    for(Tile t : this.tiles) {
+      t.atualizar(dt);
     }
 
     this.player.atualizar(dt, tamanho_x_mapa);
 
     for(Inimigo i : inimigos) {
       if(!i.morto) {
-        i.atualizar(dt, torres);
+        i.atualizar(dt);
       }
     }
 
@@ -73,7 +63,19 @@ class Mundo {
         p.atualizar(dt, inimigos, tamanho_x_mapa);
       }
     }
+
+    this.spawn();
   }
 
+  private void spawn() {
 
+    //lembrando q spawn_time é em segundos
+    if(this.spawn_time > 2.5) {
+      this.spawn_time = 0;
+      this.num_spawns++;
+      this.inimigos.add(new Inimigo(this, 400));
+    }
+  }
+
+  
 }

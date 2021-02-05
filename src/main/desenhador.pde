@@ -14,8 +14,9 @@ class Desenhador {
     // de desenho, já que ficam dois objetos distintos na memoria (mas isso pode causar um problema de memoria, por isso vamo ficando
     // com a referencia do mesmo numero por agora)
     this.mundo_clone = mundo;
-    this.desenhar_mundo(this.mundo_clone);
     this.tem_popup = false;
+    
+    this.desenhar_mundo(this.mundo_clone);
   }
 
   public boolean tem_popup() {
@@ -25,40 +26,42 @@ class Desenhador {
   private void desenhar_mundo(Mundo mundo) {
     //desenha o piso, sabendo se o tile tá com um popup aberto
     for (Tile tile : mundo.tiles) {
-      this.tem_popup |= this.desenhar_tile(tile); //faz um OR com todo mundo pra saber se tem um popup ativo
+      if(this.desenhar_tile(tile)) { // retorna se alguem ta em popup, não precisa nem renderizar nenhuma outra tile
+        this.tem_popup = true; //pra poder avisar a entrada
+        return;
+      }
     }
 
     //tudo bem ter desenhado as tiles, são só elas mesmo
-    if(!tem_popup) { // se não tiver popup
-      // Desenha os inimigos
-      // Acaba copiando o arraylist (para evitar problema com a thread)
-      ArrayList<Inimigo> copia_inimigos = new ArrayList<Inimigo>(mundo.inimigos);
-      for(Inimigo i: copia_inimigos) {
-        if(!i.morto) {
-          this.desenhar_inimigo(i);
-        }
-        // TODO: Se o inimigo morrer, fazer ele não sumir do nada
+    // Desenha os inimigos
+    // Acaba copiando o arraylist (para evitar problema com a thread)
+    ArrayList<Inimigo> copia_inimigos = new ArrayList<Inimigo>(mundo.inimigos);
+    for(Inimigo i: copia_inimigos) {
+      if(!i.morto) {
+        this.desenhar_inimigo(i);
       }
+      // TODO: Se o inimigo morrer, fazer ele não sumir do nada
+    }
 
       
-      // Desenha os Projeteis
-      // Acaba copiando o arraylist (para evitar problema com a thread)
-      ArrayList<Projetil> copia_projeteis = new ArrayList<Projetil>(mundo.projeteis);
-      for(Projetil p : copia_projeteis) {
-        if(p.ativo) {
-          this.desenhar_projetil(p);
-        }
+    // Desenha os Projeteis
+    // Acaba copiando o arraylist (para evitar problema com a thread)
+    ArrayList<Projetil> copia_projeteis = new ArrayList<Projetil>(mundo.projeteis);
+    for(Projetil p : copia_projeteis) {
+      if(p.ativo) {
+        this.desenhar_projetil(p);
       }
-
-
-      //desenha o player
-      this.desenhar_player(mundo.player);
     }
+
+
+    //desenha o player
+    this.desenhar_player(mundo.player);
   }
 
   private boolean desenhar_tile(Tile tile) {
     
     if(tile.em_popup()) {
+      background(0);
       tile.desenhar_popup(); // como aqui é uma coisa a parte, acho que tudo bem isso ficar lá
       return true; //precisa nem olhar a estrutura
     }

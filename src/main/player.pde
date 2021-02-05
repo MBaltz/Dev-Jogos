@@ -14,7 +14,12 @@ class Player {
   float seta_dir_x;
   float seta_esq_x_real;
 
-  public Player() {
+  Mundo mundo_ref;
+
+  public Player(Mundo mundo_ref) {
+
+    this.mundo_ref = mundo_ref;
+    
     this.x_local = Tile.tamanho / 2;
     this.y_local = height / 2 + 70 - this.tamanho / 2;
 

@@ -5,21 +5,26 @@ class Inimigo {
   boolean atacando;
   boolean morto; // Ele não precisa necessariamente sumir do nada
 
-  public Inimigo(float x_inicial) {
+  Mundo mundo_ref;
+
+  public Inimigo(Mundo mundo_ref, float x_inicial) {
+
+    this.mundo_ref = mundo_ref;
+    
     this.x = x_inicial;
     this.y = height/2 + 50; // Provisório
 
     this.vida = 5;
     this.dano = 0.55;
-    this.velocidade = 20.5;
+    this.velocidade = 10.5;
     this.atacando = false;
     this.morto = false;
   }
 
 
   // Utiliza as torres para verificar se está na hora de atacar
-  public void atualizar(float dt, ArrayList<Torre> torres) {
-    this.deve_atacar(torres);
+  public void atualizar(float dt) {
+    this.deve_atacar();
     if(!this.atacando && !this.morto) { // Caso ele possa andar
       float passo = dt * this.velocidade;
       if(this.x > 0) {passo *= -1;} // base em x=0, inimigo pode vim de + ou - x
@@ -29,9 +34,12 @@ class Inimigo {
 
 
   // Ação do inimigo ao chegar perto de uma torre (atacar)
-  private void deve_atacar(ArrayList<Torre> torres) {
+  private void deve_atacar() {
     this.atacando = false; // Caso a torre esteja derrubada, ele volte ao normal
-    for(Torre t : torres) {
+    for(Tile tile : this.mundo_ref.tiles) {
+      Estrutura estrutura = tile.estrutura;
+      if(estrutura == null || estrutura.tipo != Tipo_Estrutura.TORRE) { continue; }
+      Torre t = (Torre) estrutura;
       // Se chegou perto d+ de alguma torre viva
       if(!t.morreu && abs(this.x - t.x_off) <= Tile.tamanho/2) {
         this.atacando = true; // Para ficar paradinho enquanto ataca

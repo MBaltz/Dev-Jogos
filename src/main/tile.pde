@@ -47,10 +47,8 @@ class Tile {
     return b;
   }
 
-  public Torre set_torre(ArrayList<Projetil> projeteis, ArrayList<Inimigo> inimigos) {
-    Torre t = new Torre(this.num_tile, projeteis, inimigos);
-    this.add_estrutura(t);
-    return t;
+  public void set_torre(Mundo mundo_ref) {
+    this.add_estrutura(new Torre(this.num_tile, mundo_ref));
   }
 
   public void add_estrutura(Estrutura e) {
@@ -70,14 +68,12 @@ class Tile {
 
   public Estrutura atualizar(float dt) {
 
-    if(Entrada.instancia().clicado()) {
-
-      float clique_x = Entrada.instancia().clique_x;
-      float clique_y = Entrada.instancia().clique_y;
+    if(Entrada.clicado() && !Entrada.tem_popup()) {
+      float clique_x = Entrada.clique_x;
+      float clique_y = Entrada.clique_y;
 
       if(clique_x > this.x_com_camera && clique_x < this.x_com_camera + Tile.tamanho && clique_y > this.y && clique_y < this.y + Tile.tamanho) {
-        println(this);
-        Entrada.instancia().limpar_clique();
+        Entrada.limpar_clique();
         this.popup = new Popup(this);
       }
     }
