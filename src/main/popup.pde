@@ -1,3 +1,5 @@
+import java.lang.reflect.Method;
+
 //evitar ao maximo usar valores absolutos
 //como essa classe é uma exceção, algumas exceções podem ser feitas
 
@@ -28,13 +30,16 @@ class Popup {
     textAlign(CENTER, CENTER);
 
     this.desenhar_btn_fechar();
+    this.desenhar_carteira();
     
     if(this.tile.estrutura == null) {
       this.desenhar_menu_nova_estrutura();
-    } else {
-      //TODO: popups de cada estrutura
+      return;
     }
-
+    
+    if(this.tile.estrutura.tipo == Tipo_Estrutura.MINA) { this.popup_mina((Mina) this.tile.estrutura); return; }
+    if(this.tile.estrutura.tipo == Tipo_Estrutura.TORRE) { this.popup_torre((Torre) this.tile.estrutura); return; }
+    if(this.tile.estrutura.tipo == Tipo_Estrutura.BASE) { this.popup_base((Base) this.tile.estrutura); return; }
   }
 
   private void desenhar_menu_nova_estrutura() {
@@ -66,14 +71,13 @@ class Popup {
 
 
   private void desenhar_btns() {
-    this.desenhar_btn_generico(this.idx_torre, null, "Construir torre");
-    this.desenhar_btn_generico(this.idx_minerio_1, this.tile.minerio_1, "Construir mina 1");
-    this.desenhar_btn_generico(this.idx_minerio_2, this.tile.minerio_2, "Construir mina 2");
-    this.desenhar_btn_generico(this.idx_minerio_3, this.tile.minerio_3, "Construir mina 3");
+    this.desenhar_btn_mina_torre(this.idx_torre, null, "Construir torre");
+    this.desenhar_btn_mina_torre(this.idx_minerio_1, this.tile.minerio_1, "Construir mina de " + this.tile.minerio_1);
+    this.desenhar_btn_mina_torre(this.idx_minerio_2, this.tile.minerio_2, "Construir mina de " + this.tile.minerio_2);
+    this.desenhar_btn_mina_torre(this.idx_minerio_3, this.tile.minerio_3, "Construir mina de " + this.tile.minerio_3);
   }
 
-
-  private void desenhar_btn_generico(int idx, Minerio minerio, String texto_btn) {
+  private void desenhar_btn_generico(int idx, String texto_btn, Method fn, Object[] param) {
     float tamanho_x = width - 2*(width / 8);
     float tamanho_y = width / 12;
     float pos_x = (width / 8);
@@ -85,32 +89,111 @@ class Popup {
     if(Entrada.clicado()) {
       float mx = Entrada.clique_x;
       float my = Entrada.clique_y - this.translate_off;
-     
+
+      // se não clicou no botao nem faz nada
       if(!(mx > pos_x && mx < pos_x + tamanho_x)) { return; }
       if(!(my > pos_y && my < pos_y + tamanho_y)) { return; }
-
-      if(minerio == null) {
-        this.construir_torre();
-      } else {
-        this.construir_mina(minerio);
-      }
+      this.deve_fechar = true; // a menos que alguma função diga o contrario
       
+      //executar a função passada
+      try {
+        if(param.length == 0) {
+          fn.invoke(this);
+        } else  {
+          fn.invoke(this, param);
+        }
+      } catch(Exception ex) {ex.printStackTrace();}
+     
       Entrada.limpar_clique();
-      this.deve_fechar = true;
     }
+
+  }
+
+  private void desenhar_btn_mina_torre(int idx, Minerio minerio, String texto_btn) {
+    // o botao sendo clicado, vamo ver qual ação que faz
+    try {
+      //TODO: separar em variaveis mais legiveis
+      if(minerio != null) {
+        this.desenhar_btn_generico(idx, texto_btn, this.getClass().getMethod("construir_mina", new Class<?>[] {Minerio.class}), new Object[] {minerio});
+      } else {
+        this.desenhar_btn_generico(idx, texto_btn, this.getClass().getMethod("construir_torre", new Class<?>[] {}), new Object[] {});
+      }
+    } catch(Exception ex) {ex.printStackTrace();}
   }
 
   public boolean pediu_pra_fechar() {
     return this.deve_fechar;
   }
 
-  private void construir_torre() {
-    //TODO: subtrair custo do player
-    this.tile.set_torre();
+  private void desenhar_carteira() {
+    float largura_carteira = width / 3;
+    float altura_carteira = width / 18;
+    float x_carteira = largura_carteira/2 - altura_carteira/2;
+    float y_carteira = height/8;
+    noFill();
+    rect(x_carteira, y_carteira, largura_carteira, altura_carteira);
+    textAlign(CENTER, CENTER);
+    text("No bolso: " + this.tile.mundo_ref.player.dinheiros_no_bolso, x_carteira, y_carteira, largura_carteira, altura_carteira);
+
+  }
+
+  public void construir_torre() {
+    if(this.tile.mundo_ref.player.dinheiros_no_bolso >= Torre.custo_de_construcao) {
+      this.tile.set_torre();
+      this.tile.mundo_ref.player.dinheiros_no_bolso -= Torre.custo_de_construcao;
+    }
   }
   
-  private void construir_mina(Minerio minerio) {
-    //TODO: subtrair custo do player
-    //TODO: criar a mina
+  public void construir_mina(Minerio minerio) {
+    if(this.tile.mundo_ref.player.dinheiros_no_bolso >= Mina.custo_de_construcao) {
+      this.tile.set_mina(minerio);
+      this.tile.mundo_ref.player.dinheiros_no_bolso -= Mina.custo_de_construcao;
+    }
+  }
+
+  private void popup_mina(Mina mina) {}
+  private void popup_torre(Torre torre) {}
+
+
+  
+  private void popup_base(Base base) {
+    
+    float largura_cofre = width / 3;
+    float altura_cofre = width / 18;
+    float x_cofre = (largura_cofre/2 - altura_cofre/2) + largura_cofre + altura_cofre;
+    float y_cofre = height/8;
+    noFill();
+    rect(x_cofre, y_cofre, largura_cofre, altura_cofre);
+    textAlign(CENTER, CENTER);
+    text("No cofre: " + this.tile.mundo_ref.base.valor_acumulado, x_cofre, y_cofre, largura_cofre, altura_cofre);
+    
+    try {
+
+      // o fluxo é cofre -> bolso
+      // então se a quantidade for negativa, na verdade é bolso -> cofre
+      
+      float qtd = 100;
+      this.desenhar_btn_generico(2, "Botar " + qtd + " no bolso", this.getClass().getMethod("mover_dinheiro", new Class<?>[] {Float.class}), new Object[] {qtd});
+      this.desenhar_btn_generico(3, "Botar " + qtd + " no cofre", this.getClass().getMethod("mover_dinheiro", new Class<?>[] {Float.class}), new Object[] {-qtd});
+      qtd = 1000;
+      this.desenhar_btn_generico(4, "Botar " + qtd + " no bolso", this.getClass().getMethod("mover_dinheiro", new Class<?>[] {Float.class}), new Object[] {qtd});
+      this.desenhar_btn_generico(5, "Botar " + qtd + " no cofre", this.getClass().getMethod("mover_dinheiro", new Class<?>[] {Float.class}), new Object[] {-qtd});
+    } catch(Exception ex) {ex.printStackTrace();}
+    
+  }
+
+  public void mover_dinheiro(Float qtd) {
+
+    if (this.tile.mundo_ref.base.valor_acumulado >= qtd) {
+      this.tile.mundo_ref.player.dinheiros_no_bolso += qtd;
+      this.tile.mundo_ref.base.valor_acumulado -= qtd;
+
+      if(this.tile.mundo_ref.player.dinheiros_no_bolso <= 0) {this.tile.mundo_ref.player.dinheiros_no_bolso = 0; }
+      if(this.tile.mundo_ref.base.valor_acumulado <= 0) { this.tile.mundo_ref.base.valor_acumulado = 0; }
+
+    } else {
+      this.deve_fechar = false;
+    }
+      
   }
 }

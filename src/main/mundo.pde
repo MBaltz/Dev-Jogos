@@ -35,6 +35,14 @@ class Mundo {
         t.set_torre(); // a torre toma conhecimento do mundo
       }
 
+      int pos_minas = 2;
+      if (i == -pos_minas || i == pos_minas) { // duas minas de gratis
+        t.set_mina(Minerio.PEDRA);
+      }
+
+
+
+      
       this.tiles.add(t);
     }
 

@@ -53,6 +53,10 @@ class Tile {
     this.add_estrutura(new Torre(this.num_tile, this.mundo_ref));
   }
 
+  public void set_mina(Minerio minerio) {
+    this.add_estrutura(new Mina(this.num_tile, minerio));
+  }
+
   public void add_estrutura(Estrutura e) {
     if(this.estrutura == null) {
       this.estrutura = e;

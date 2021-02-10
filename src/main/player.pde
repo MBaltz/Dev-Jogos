@@ -15,6 +15,7 @@ class Player {
   float seta_esq_x_real;
 
   Mundo mundo_ref;
+  double dinheiros_no_bolso;
 
   public Player(Mundo mundo_ref) {
 
@@ -23,6 +24,7 @@ class Player {
     this.x_local = Tile.tamanho / 2;
     this.y_local = height / 2 + 70 - this.tamanho / 2;
 
+    this.dinheiros_no_bolso = 9999999; // mt por agora
 
     final String PPATH="assets/texturas/";
     final String FN="seta.png";

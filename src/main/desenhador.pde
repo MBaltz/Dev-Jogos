@@ -24,6 +24,9 @@ class Desenhador {
   }
 
   private void desenhar_mundo(Mundo mundo) {
+
+    this.desenhar_carteira(mundo.player);
+    
     //desenha o piso, sabendo se o tile tá com um popup aberto
     for (Tile tile : mundo.tiles) {
       if(this.desenhar_tile(tile)) { // retorna se alguem ta em popup, não precisa nem renderizar nenhuma outra tile
@@ -105,6 +108,20 @@ class Desenhador {
     ellipse(player.x_local - this.camera_x, player.y_local, player.tamanho, player.tamanho);
   }
 
+  private void desenhar_carteira(Player player) {
+    pushMatrix();
+    translate(width/2, height/2);
+    float largura_carteira = width / 6.3;
+    float altura_carteira = width / 27;
+    float x_carteira = -largura_carteira/2;
+    float y_carteira = height/5;
+    noFill();
+    rect(x_carteira, y_carteira, largura_carteira, altura_carteira);
+    textAlign(CENTER, CENTER);
+    text("No bolso: " + player.dinheiros_no_bolso, x_carteira, y_carteira, largura_carteira, altura_carteira);
+    popMatrix();
+  }
+
   private void desenhar_setas_player(Player player) {
     pushMatrix(); // tudo entre isso e o popmatrix vai ser descartado
     scale(-1, 1); // pra rodar a imagem em 180º no x
@@ -161,6 +178,14 @@ class Desenhador {
   }
 
   private boolean desenhar_mina(Mina mina, float x, float y) {
+    if (mina.morreu) { return false; }
+    
+    // Provisório
+    fill(100, 0, 230);
+    strokeWeight(0);
+    float tamanho = 50;
+    rect(x + Tile.tamanho / 4, y - tamanho, Tile.tamanho/2, tamanho);
+    noFill();
     return false;
   }
 
