@@ -152,7 +152,69 @@ class Popup {
   }
 
   private void popup_mina(Mina mina) {}
-  private void popup_torre(Torre torre) {}
+  
+  private void popup_torre(Torre torre) {
+
+    // TODO: cadencia e alcance?
+    int nivel_atual = (torre.nivel+1);
+    float cadencia_atual = torre.cadencia;
+    float alcance_atual = torre.alcance;
+    
+    float custo_melhoramento = pow(2, torre.nivel) * 100;
+    
+    String texto_nivel = "Nivel atual: " + nivel_atual;
+    String texto_custo = "Custo para melhorar: " + custo_melhoramento;
+    
+    String texto_cadencia = "Melhorar cadencia. Atual: " + cadencia_atual;
+    String texto_alcance = "Melhorar alcance. Atual: " + alcance_atual;
+
+    try {
+
+
+      pushMatrix(); 
+      float x_texto = (width / 7);
+      float y_texto_1 = (height / 4);
+      float y_texto_2 = (height / 4) + (height / 16);
+      textAlign(LEFT);
+      noFill();
+      
+      text(texto_nivel, x_texto, y_texto_1, width, 40);
+      // rect(x_texto, y_texto_1, width, 40);
+
+      text(texto_custo, x_texto, y_texto_2, width, 40);
+      // rect(x_texto, y_texto_2, width, 40);
+
+      
+      textAlign(CENTER, CENTER);
+      popMatrix();
+
+      
+      
+      Method metodo = this.getClass().getMethod("melhorar_torre", new Class<?>[] {Torre.class, Boolean.class, Boolean.class});
+      this.desenhar_btn_generico(3, texto_cadencia, metodo, new Object[] {torre, true, false});
+      this.desenhar_btn_generico(4, texto_alcance, metodo, new Object[] {torre, false, true});
+    } catch(Exception ex) { ex.printStackTrace(); }
+  }
+
+  public void melhorar_torre(Torre torre, Boolean melhorar_cadencia, Boolean melhorar_alcance) {
+    this.deve_fechar = false;
+    float custo_melhoramento = pow(2, torre.nivel) * 100;
+
+    if(this.tile.mundo_ref.player.dinheiros_no_bolso < custo_melhoramento) {
+      return;
+    }
+
+    if(melhorar_cadencia) {
+      torre.melhorar_cadencia();
+      this.tile.mundo_ref.player.dinheiros_no_bolso -= custo_melhoramento;
+    }
+    
+    if(melhorar_alcance) {
+      torre.melhorar_alcance();
+      this.tile.mundo_ref.player.dinheiros_no_bolso -= custo_melhoramento;
+    }
+    
+  }
 
 
   
@@ -191,9 +253,7 @@ class Popup {
       if(this.tile.mundo_ref.player.dinheiros_no_bolso <= 0) {this.tile.mundo_ref.player.dinheiros_no_bolso = 0; }
       if(this.tile.mundo_ref.base.valor_acumulado <= 0) { this.tile.mundo_ref.base.valor_acumulado = 0; }
 
-    } else {
-      this.deve_fechar = false;
-    }
-      
+    } 
+    this.deve_fechar = false;
   }
 }
