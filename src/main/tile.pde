@@ -72,17 +72,8 @@ class Tile {
 
   public void atualizar(float dt) {
 
-    //TODO: verificar também se o player ta em cima do tile pra poder abrir o popup
-    if(Entrada.clicado() && !Entrada.tem_popup()) {
-      float clique_x = Entrada.clique_x;
-      float clique_y = Entrada.clique_y;
-
-      if(clique_x > this.x_com_camera && clique_x < this.x_com_camera + Tile.tamanho && clique_y > this.y && clique_y < this.y + Tile.tamanho) {
-        Entrada.limpar_clique();
-        this.popup = new Popup(this);
-      }
-    }
-
+    this.verificar_se_popup_deve_ser_aberto();
+    
     if(this.estrutura != null) {
       if(this.estrutura.morreu) {
         this.estrutura = null; //garbage collector vai trabaia
@@ -96,6 +87,21 @@ class Tile {
     }
   }
 
+  private void verificar_se_popup_deve_ser_aberto() {
+    if(Entrada.clicado() && !Entrada.tem_popup()) {
+      float clique_x = Entrada.clique_x;
+      float clique_y = Entrada.clique_y;
+
+      if(clique_x > this.x_com_camera && clique_x < this.x_com_camera + Tile.tamanho && clique_y > this.y && clique_y < this.y + Tile.tamanho) {
+        Entrada.limpar_clique();
+        float x_player = this.mundo_ref.player.x_local;
+        if(x_player > this.x && x_player < this.x + Tile.tamanho) {
+          this.popup = new Popup(this);
+        }
+        
+      }
+    }   
+  }
 
   public boolean em_popup() {
     return this.popup != null;
