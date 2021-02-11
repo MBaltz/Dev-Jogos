@@ -10,7 +10,7 @@ String msg_carregamento = "";
 void setup() {
   frameRate(fps);
   orientation(LANDSCAPE); // modo paisagem no celular
-  // fullScreen(); // tela cheia
+  //fullScreen(); // tela cheia
   size(1130, 720);
   thread("carregar_jogo");
 }
@@ -101,7 +101,7 @@ void mouseDragged() { // apertou e arrastou pra mover a camera
   }
 }
 
-void mouseClicked() {
+void mouseReleased() {
   if(jogo_carregado) {
     Entrada.clicar(mouseX, mouseY);
   }
