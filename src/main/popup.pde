@@ -133,7 +133,7 @@ class Popup {
     noFill();
     rect(x_carteira, y_carteira, largura_carteira, altura_carteira);
     textAlign(CENTER, CENTER);
-    text("No bolso: " + this.tile.mundo_ref.player.dinheiros_no_bolso, x_carteira, y_carteira, largura_carteira, altura_carteira);
+    text("No bolso: " + String.format("%.4f", this.tile.mundo_ref.player.dinheiros_no_bolso), x_carteira, y_carteira, largura_carteira, altura_carteira);
 
   }
 
@@ -141,6 +141,8 @@ class Popup {
     if(this.tile.mundo_ref.player.dinheiros_no_bolso >= Torre.custo_de_construcao) {
       this.tile.set_torre();
       this.tile.mundo_ref.player.dinheiros_no_bolso -= Torre.custo_de_construcao;
+    } else {
+      this.deve_fechar = false;
     }
   }
   
@@ -148,10 +150,67 @@ class Popup {
     if(this.tile.mundo_ref.player.dinheiros_no_bolso >= Mina.custo_de_construcao) {
       this.tile.set_mina(minerio);
       this.tile.mundo_ref.player.dinheiros_no_bolso -= Mina.custo_de_construcao;
+    } else {
+      this.deve_fechar = false;
     }
   }
 
-  private void popup_mina(Mina mina) {}
+  private void popup_mina(Mina mina) {
+
+    //TODO: formatar floats
+    String texto_nivel = "Nivel atual: " + (mina.nivel+1);
+    String texto_acumulado = "Dinheiros acumulado: " + String.format("%.4f", mina.valor_acumulado);
+    String texto_minerando = "Minerando: " + (mina.minerio) + ". Valor do minerio: " + String.format("%.4f", mina.minerio.valor);
+
+    texto_nivel += "   Custo para melhorar: " + String.format("%.4f", mina.custo_melhoramento());
+    String texto_qualidade = "Melhorar qualidade de mineração. Atual: " + ((int)(mina.qualidade_mineracao*100)) + "%";
+
+    try {
+
+
+      pushMatrix(); 
+      float x_texto = (width / 7);
+      float y_texto_1 = (height / 4);
+      float y_texto_2 = (height / 4) + (height / 16);
+      float y_texto_3 = (height / 4) + 2*(height / 16);
+      textAlign(LEFT);
+      noFill();
+      
+      text(texto_nivel, x_texto, y_texto_1, width, 40);
+      // rect(x_texto, y_texto_1, width, 40);
+
+      text(texto_acumulado, x_texto, y_texto_2, width, 40);
+      text(texto_minerando, x_texto, y_texto_3, width, 40);
+
+
+      
+      
+      textAlign(CENTER, CENTER);
+      popMatrix();
+      
+      Method metodo = this.getClass().getMethod("melhorar_mina", new Class<?>[] {Mina.class});
+      this.desenhar_btn_generico(3, texto_qualidade, metodo, new Object[] {mina});
+      
+      metodo = this.getClass().getMethod("coletar_da_mina", new Class<?>[] {Mina.class});
+      this.desenhar_btn_generico(4, "Coletar dinheiros", metodo, new Object[] {mina});
+     
+    } catch(Exception ex) { ex.printStackTrace(); }
+  }
+
+  public void melhorar_mina(Mina mina) {
+    this.deve_fechar = false;
+    if(this.tile.mundo_ref.player.dinheiros_no_bolso < mina.custo_melhoramento()) {
+      return;
+    }
+    mina.melhorar_qualidade();
+    this.tile.mundo_ref.player.dinheiros_no_bolso -= mina.custo_melhoramento();
+  }
+
+  public void coletar_da_mina(Mina mina) {
+    this.tile.mundo_ref.player.dinheiros_no_bolso += mina.valor_acumulado;
+    mina.valor_acumulado = 0;
+  }
+  
   
   private void popup_torre(Torre torre) {
 
@@ -159,14 +218,13 @@ class Popup {
     int nivel_atual = (torre.nivel+1);
     float cadencia_atual = torre.cadencia;
     float alcance_atual = torre.alcance;
-    
-    float custo_melhoramento = pow(2, torre.nivel) * 100;
-    
+       
+    //TODO: formatar floats
     String texto_nivel = "Nivel atual: " + nivel_atual;
-    String texto_custo = "Custo para melhorar: " + custo_melhoramento;
+    String texto_custo = "Custo para melhorar: " + String.format("%.4f", torre.custo_melhoramento());
     
-    String texto_cadencia = "Melhorar cadencia. Atual: " + cadencia_atual;
-    String texto_alcance = "Melhorar alcance. Atual: " + alcance_atual;
+    String texto_cadencia = "Melhorar cadencia. Atual: " + String.format("%.4f", cadencia_atual);
+    String texto_alcance = "Melhorar alcance. Atual: " + String.format("%.4f", alcance_atual);
 
     try {
 
@@ -198,20 +256,19 @@ class Popup {
 
   public void melhorar_torre(Torre torre, Boolean melhorar_cadencia, Boolean melhorar_alcance) {
     this.deve_fechar = false;
-    float custo_melhoramento = pow(2, torre.nivel) * 100;
 
-    if(this.tile.mundo_ref.player.dinheiros_no_bolso < custo_melhoramento) {
+    if(this.tile.mundo_ref.player.dinheiros_no_bolso < torre.custo_melhoramento()) {
       return;
     }
 
     if(melhorar_cadencia) {
       torre.melhorar_cadencia();
-      this.tile.mundo_ref.player.dinheiros_no_bolso -= custo_melhoramento;
+      this.tile.mundo_ref.player.dinheiros_no_bolso -= torre.custo_melhoramento();
     }
     
     if(melhorar_alcance) {
       torre.melhorar_alcance();
-      this.tile.mundo_ref.player.dinheiros_no_bolso -= custo_melhoramento;
+      this.tile.mundo_ref.player.dinheiros_no_bolso -= torre.custo_melhoramento();
     }
     
   }

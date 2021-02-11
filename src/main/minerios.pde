@@ -4,10 +4,11 @@ import java.util.Map;
 public enum Minerio {
 
   //ENUM, Texto, valor, probabilidade % de aparecer no tile (tem q somar 100)
-  PEDRA("Pedra",   1.0, 50),
-  CARVAO("Carvão", 1.2, 30),
-  FERRO("Ferro",   1.5, 10),
-  COBRE("Cobre",   2.0, 10);
+  PEDRA("Pedra",     1.0, 60),
+  CARVAO("Carvão",   1.2, 20),
+  ESTANHO("Estanho", 1.1, 10),
+  FERRO("Ferro",     1.5, 8),
+  COBRE("Cobre",     2.0, 2);
 
 
   private static final Map<String, Minerio> NOMES = new HashMap();

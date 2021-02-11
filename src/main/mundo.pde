@@ -39,13 +39,8 @@ class Mundo {
       if (i == -pos_minas || i == pos_minas) { // duas minas de gratis
         t.set_mina(Minerio.PEDRA);
       }
-
-
-
-      
       this.tiles.add(t);
     }
-
   }
 
 

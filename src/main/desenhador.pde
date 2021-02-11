@@ -118,7 +118,7 @@ class Desenhador {
     noFill();
     rect(x_carteira, y_carteira, largura_carteira, altura_carteira);
     textAlign(CENTER, CENTER);
-    text("No bolso: " + player.dinheiros_no_bolso, x_carteira, y_carteira, largura_carteira, altura_carteira);
+    text("No bolso: " + String.format("%.4f", player.dinheiros_no_bolso), x_carteira, y_carteira, largura_carteira, altura_carteira);
     popMatrix();
   }
 

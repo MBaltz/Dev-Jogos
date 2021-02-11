@@ -24,7 +24,7 @@ class Player {
     this.x_local = Tile.tamanho / 2;
     this.y_local = height / 2 + 70 - this.tamanho / 2;
 
-    this.dinheiros_no_bolso = 9999999; // mt por agora
+    this.dinheiros_no_bolso = 999999; // mt por agora
 
     final String PPATH="assets/texturas/";
     final String FN="seta.png";

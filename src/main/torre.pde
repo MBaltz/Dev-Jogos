@@ -23,8 +23,9 @@ class Torre extends Estrutura {
     this.alcance = 100; // Alcance de inimigos em pixels
   }
 
-  public void melhorar_cadencia() { this.cadencia += 0.1; }
-  public void melhorar_alcance() { this.alcance += 5; }
+  public void melhorar_cadencia() { this.cadencia += 0.1; this.nivel++; }
+  public void melhorar_alcance() { this.alcance += 5; this.nivel++; }
+  public float custo_melhoramento() {  return pow(2, this.nivel) * 100; }
 
   public void atualizar(float dt) {
     // Atualiza a torre de acordo com os inimigos por perto
