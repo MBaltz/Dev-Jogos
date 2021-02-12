@@ -11,7 +11,7 @@ class Mundo {
 
   float spawn_time = 0;
   int num_spawns = 0;
-  
+
 
   public Mundo(int num_tiles) {
     this.player   = new Player(this); // o player toma conhecimento do mundo
@@ -25,18 +25,18 @@ class Mundo {
     // [-3, -2, -1, (0), 1, 2, 3, 4]
     for(int i = -num_tiles/2; i < num_tiles/2; i++) {
       Tile t = new Tile(i, this);
-      
+
       if(i == 0) {
         this.base = t.set_base(); // Cria a base no meio dos tiles
       }
 
       int pos_torres = 3;
-      if (i == -pos_torres || i == pos_torres) { // duas torres de gratis
+      if (i == -pos_torres || i == pos_torres) { // duas torres de grátis
         t.set_torre(); // a torre toma conhecimento do mundo
       }
 
       int pos_minas = 2;
-      if (i == -pos_minas || i == pos_minas) { // duas minas de gratis
+      if (i == -pos_minas || i == pos_minas) { // duas minas de grátis
         t.set_mina(Minerio.PEDRA);
       }
       this.tiles.add(t);
@@ -44,7 +44,7 @@ class Mundo {
   }
 
 
-  
+
   public void atualizar(float dt) {
 
     this.spawn_time += dt;
@@ -80,5 +80,5 @@ class Mundo {
     }
   }
 
-  
+
 }

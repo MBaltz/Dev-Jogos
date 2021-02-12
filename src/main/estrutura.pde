@@ -10,7 +10,8 @@ abstract class Estrutura {
   // TODO: Vamos mesmo usar 'x_off', 'y_off'? Ou melhor seguir o padrão 'x', 'y'?
   public float x_off;
   public float y_off;
-  public static final float custo_de_construcao = 1000;
+  // TODO: Deixar esse valor dinâmico de acordo com o tipo de estrutura
+  public static final float custo_construir = 1000;
   public Tipo_Estrutura tipo;
   public boolean morreu = false;
   public abstract void atualizar(float dt);

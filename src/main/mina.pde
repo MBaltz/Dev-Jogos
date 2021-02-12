@@ -40,5 +40,5 @@ class Mina extends Estrutura {
   public float custo_melhoramento() {
     return pow(2, this.nivel) * 100;
   }
-  
+
 }

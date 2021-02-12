@@ -9,13 +9,16 @@ class Desenhador {
   public void desenhar(Mundo mundo, Camera camera_obj) {
 
     this.camera_x = camera_obj.get_pos();
-    // a ideia é que mundo clone seja objeto-copia de mundo, e não uma referencia, assim pode mandar pra outra thread sem problemas
-    // mas já que não tem como mandar pra outras thread, pelo menos o acesso pela thread de atualizar não fica concorrido com essa
-    // de desenho, já que ficam dois objetos distintos na memoria (mas isso pode causar um problema de memoria, por isso vamo ficando
-    // com a referencia do mesmo numero por agora)
+    // TODO:
+    // a ideia é que mundo clone seja objeto-copia de mundo, e não uma
+    // referência, assim pode mandar pra outra thread sem problemas mas já que
+    // não tem como mandar pra outras thread, pelo menos o acesso pela thread
+    // de atualizar não fica concorrido com essa de desenho, já que ficam dois
+    // objetos distintos na memória (mas isso pode causar um problema de
+    // memória, por isso vamo ficando com a referência do mesmo número por agora)
     this.mundo_clone = mundo;
     this.tem_popup = false;
-    
+
     this.desenhar_mundo(this.mundo_clone);
   }
 
@@ -26,8 +29,8 @@ class Desenhador {
   private void desenhar_mundo(Mundo mundo) {
 
     this.desenhar_carteira(mundo.player);
-    
-    //desenha o piso, sabendo se o tile tá com um popup aberto
+
+    // Desenha o piso, sabendo se o tile tá com um popup aberto
     for (Tile tile : mundo.tiles) {
       if(this.desenhar_tile(tile)) { // retorna se alguem ta em popup, não precisa nem renderizar nenhuma outra tile
         this.tem_popup = true; //pra poder avisar a entrada
@@ -35,7 +38,7 @@ class Desenhador {
       }
     }
 
-    //tudo bem ter desenhado as tiles, são só elas mesmo
+    // Tudo bem ter desenhado as tiles, são só elas mesmo
     // Desenha os inimigos
     // Acaba copiando o arraylist (para evitar problema com a thread)
     ArrayList<Inimigo> copia_inimigos = new ArrayList<Inimigo>(mundo.inimigos);
@@ -46,7 +49,7 @@ class Desenhador {
       // TODO: Se o inimigo morrer, fazer ele não sumir do nada
     }
 
-      
+
     // Desenha os Projeteis
     // Acaba copiando o arraylist (para evitar problema com a thread)
     ArrayList<Projetil> copia_projeteis = new ArrayList<Projetil>(mundo.projeteis);
@@ -56,13 +59,12 @@ class Desenhador {
       }
     }
 
-
     //desenha o player
     this.desenhar_player(mundo.player);
   }
 
   private boolean desenhar_tile(Tile tile) {
-    
+
     if(tile.em_popup()) {
       background(0);
       tile.desenhar_popup(); // como aqui é uma coisa a parte, acho que tudo bem isso ficar lá
@@ -71,24 +73,23 @@ class Desenhador {
 
     float tile_x  = tile.x - this.camera_x; // Calcula posição do tile no eixo x
     tile.x_com_camera  = tile.x - this.camera_x; // Calcula posição do tile no eixo x
-    
+
     if((tile_x + tile.tamanho < 0 || tile_x > width)
        || (tile.y + tile.tamanho < 0 || tile.y > height)) {
       return false; // retorna dizendo que nao tem popup
     }
 
-    
+
     //codigo provisorio pra desenhar o chão
     fill(tile.r, tile.g, tile.b);
     strokeWeight(0);
     rect(tile_x, tile.y, tile.tamanho, tile.tamanho);
     noFill();
-    
+
     // se não tem estrutura aqui, não desenha ela
     if(tile.estrutura != null) {
       this.desenhar_estrutura(tile.estrutura, tile_x, tile.y);
     }
-
     return false; //não tem popup
   }
 
@@ -118,16 +119,23 @@ class Desenhador {
     noFill();
     rect(x_carteira, y_carteira, largura_carteira, altura_carteira);
     textAlign(CENTER, CENTER);
-    text("No bolso: " + String.format("%.4f", player.dinheiros_no_bolso), x_carteira, y_carteira, largura_carteira, altura_carteira);
+    text("No bolso: $" + String.format("%.2f", player.dinheiros_no_bolso),
+      x_carteira, y_carteira, largura_carteira, altura_carteira
+    );
     popMatrix();
   }
 
   private void desenhar_setas_player(Player player) {
     pushMatrix(); // tudo entre isso e o popmatrix vai ser descartado
     scale(-1, 1); // pra rodar a imagem em 180º no x
-    image(player.seta_img, player.seta_esq_x, player.seta_y_off, player.seta_largura_img, player.seta_altura_img); //desenha a imagem
-    popMatrix(); // descarta o scale e mas a seta fica renderizada
-    image(player.seta_img, player.seta_dir_x, player.seta_y_off, player.seta_largura_img, player.seta_altura_img);
+    //desenha a imagem
+    image(player.seta_img, player.seta_esq_x, player.seta_y_off,
+      player.seta_largura_img, player.seta_altura_img
+    );
+    popMatrix(); // descarta o scale mas a seta já desenhada fica renderizada
+    image(player.seta_img, player.seta_dir_x, player.seta_y_off,
+      player.seta_largura_img, player.seta_altura_img
+    );
 
     this.seta_largura = player.seta_largura_img;
     this.seta_altura = player.seta_altura_img;
@@ -156,14 +164,12 @@ class Desenhador {
   }
 
 
-
   private boolean desenhar_estrutura(Estrutura estrutura, float x, float y) {
     //TODO: verificar se ta dentro da tela (mesmo que a tile já tenha feito isso?)
 
     if(estrutura.tipo == Tipo_Estrutura.BASE) { return this.desenhar_base((Base) estrutura, x, y); }
     if(estrutura.tipo == Tipo_Estrutura.MINA) { return this.desenhar_mina((Mina) estrutura, x, y); }
     if(estrutura.tipo == Tipo_Estrutura.TORRE) { return this.desenhar_torre((Torre) estrutura, x, y); }
-
     return true;
   }
 
@@ -179,7 +185,7 @@ class Desenhador {
 
   private boolean desenhar_mina(Mina mina, float x, float y) {
     if (mina.morreu) { return false; }
-    
+
     // Provisório
     fill(100, 0, 230);
     strokeWeight(0);
@@ -192,7 +198,7 @@ class Desenhador {
   private boolean desenhar_torre(Torre torre, float x, float y) {
 
     if (torre.morreu) { return false; }
-    
+
     // Provisório
     fill(100, 230, 100);
     strokeWeight(0);
@@ -203,7 +209,7 @@ class Desenhador {
   }
 
   private void desenhar_projetil(Projetil projetil) {
-    stroke(255, 210, 210); fill(255, 200, 230);
+    stroke(0, 0, 255); fill(255, 185, 200);
     float ponta_x = projetil.x - projetil.tamanho * cos(projetil.angulo);
     float ponta_y = projetil.y - projetil.tamanho * sin(projetil.angulo);
     // line(projetil.x - this.camera_x, projetil.y, ponta_x - this.camera_x, ponta_y);
