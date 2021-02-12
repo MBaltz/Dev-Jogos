@@ -29,6 +29,7 @@ class Desenhador {
   private void desenhar_mundo(Mundo mundo) {
 
     this.desenhar_carteira(mundo.player);
+    this.desenhar_dia();
 
     // Desenha o piso, sabendo se o tile tá com um popup aberto
     for (Tile tile : mundo.tiles) {
@@ -43,7 +44,11 @@ class Desenhador {
     // Acaba copiando o arraylist (para evitar problema com a thread)
     ArrayList<Inimigo> copia_inimigos = new ArrayList<Inimigo>(mundo.inimigos);
     for(Inimigo i: copia_inimigos) {
-      if(!i.morto) {
+      // Se não estiver morto e estiver dentro do cenário, desenha
+      if(!i.morto
+        && (i.x > -this.mundo_clone.tamanho_x_mapa/2
+        && i.x < this.mundo_clone.tamanho_x_mapa/2)
+      ) {
         this.desenhar_inimigo(i);
       }
       // TODO: Se o inimigo morrer, fazer ele não sumir do nada
@@ -120,6 +125,23 @@ class Desenhador {
     rect(x_carteira, y_carteira, largura_carteira, altura_carteira);
     textAlign(CENTER, CENTER);
     text("No bolso: $" + String.format("%.2f", player.dinheiros_no_bolso),
+      x_carteira, y_carteira, largura_carteira, altura_carteira
+    );
+    popMatrix();
+  }
+
+  // Mostra na tela o dia que se passa  naquele momento
+  private void desenhar_dia() {
+    pushMatrix();
+    translate(width/2, height/2);
+    float largura_carteira = width / 10;
+    float altura_carteira = width / 27;
+    float x_carteira = -largura_carteira/2;
+    float y_carteira = -height/4;
+    noFill();
+    rect(x_carteira, y_carteira, largura_carteira, altura_carteira);
+    textAlign(CENTER, CENTER);
+    text("DIA: " + this.mundo_clone.dia,
       x_carteira, y_carteira, largura_carteira, altura_carteira
     );
     popMatrix();
