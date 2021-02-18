@@ -27,7 +27,7 @@ class Desenhador {
   }
 
   private void desenhar_mundo(Mundo mundo) {
-
+    this.desenhar_background();
     this.desenhar_carteira(mundo.player);
     this.desenhar_dia();
 
@@ -54,7 +54,6 @@ class Desenhador {
       // TODO: Se o inimigo morrer, fazer ele não sumir do nada
     }
 
-
     // Desenha os Projeteis
     // Acaba copiando o arraylist (para evitar problema com a thread)
     ArrayList<Projetil> copia_projeteis = new ArrayList<Projetil>(mundo.projeteis);
@@ -66,6 +65,31 @@ class Desenhador {
 
     //desenha o player
     this.desenhar_player(mundo.player);
+  }
+
+  private void desenhar_background() {
+    //TODO: usar o tempo do dia pra escolher o background, fazer um lerp entre eles?
+
+
+    //tint(255, 127);
+    PImage textura = TextureLoader.textura_bg_sol(this.mundo_clone.segundos_dia_atual, this.mundo_clone.segundos_em_um_dia);
+    textura.resize(0, (int) (height/2.0 + 70.0));
+    image(textura, 0 - this.camera_x - width/2, 0);
+
+    textura = TextureLoader.textura_bg(this.mundo_clone.segundos_dia_atual, this.mundo_clone.segundos_em_um_dia);
+    textura.resize(0, (int) (height/2.0 + 70.0));
+    int desenho = 1;
+    while(true) {
+      float nx = (desenho * textura.width);
+      image(textura, nx - this.camera_x - width/2, 0);
+      image(textura, -nx - this.camera_x - width/2, 0);
+      desenho++;
+      if(nx > this.mundo_clone.tamanho_x_mapa/2 || -nx < this.mundo_clone.tamanho_x_mapa/2) {
+        break;
+      }
+    }
+
+    //tint(255, 255);
   }
 
   private boolean desenhar_tile(Tile tile) {
@@ -85,11 +109,7 @@ class Desenhador {
     }
 
 
-    //codigo provisorio pra desenhar o chão
-    fill(tile.r, tile.g, tile.b);
-    strokeWeight(0);
-    rect(tile_x, tile.y, tile.tamanho, tile.tamanho);
-    noFill();
+    image(TextureLoader.textura_tile(), tile_x, tile.y, Tile.tamanho, Tile.tamanho);
 
     // se não tem estrutura aqui, não desenha ela
     if(tile.estrutura != null) {
@@ -98,20 +118,20 @@ class Desenhador {
     return false; //não tem popup
   }
 
-
   private void desenhar_inimigo(Inimigo inimigo) {
-    stroke(255, 0, 255);
-    fill(240, 0, 75);
-    rect(inimigo.x - this.camera_x, inimigo.y, 20, 20);
+    float inimigo_x = inimigo.x - this.camera_x;
+    float inimigo_y = inimigo.y - (Tile.tamanho/2);
+    image(TextureLoader.textura_inimigo(), inimigo_x, inimigo_y,  Tile.tamanho, Tile.tamanho);
   }
 
   private void desenhar_player(Player player) {
     //TODO: verificar se tá na tela
 
     this.desenhar_setas_player(player);
-    fill(70, 80, 0);
-    stroke(255, 0, 0);
-    ellipse(player.x_local - this.camera_x, player.y_local, player.tamanho, player.tamanho);
+
+    float player_x = player.x_local - this.camera_x - (Tile.tamanho/2);
+    float player_y = player.y_local - (Tile.tamanho/2);
+    image(TextureLoader.textura_player(), player_x, player_y,  Tile.tamanho, Tile.tamanho);
   }
 
   private void desenhar_carteira(Player player) {
@@ -151,11 +171,11 @@ class Desenhador {
     pushMatrix(); // tudo entre isso e o popmatrix vai ser descartado
     scale(-1, 1); // pra rodar a imagem em 180º no x
     //desenha a imagem
-    image(player.seta_img, player.seta_esq_x, player.seta_y_off,
+    image(TextureLoader.textura_seta_player(), player.seta_esq_x, player.seta_y_off,
       player.seta_largura_img, player.seta_altura_img
     );
     popMatrix(); // descarta o scale mas a seta já desenhada fica renderizada
-    image(player.seta_img, player.seta_dir_x, player.seta_y_off,
+    image(TextureLoader.textura_seta_player(), player.seta_dir_x, player.seta_y_off,
       player.seta_largura_img, player.seta_altura_img
     );
 
@@ -185,7 +205,6 @@ class Desenhador {
 
   }
 
-
   private boolean desenhar_estrutura(Estrutura estrutura, float x, float y) {
     //TODO: verificar se ta dentro da tela (mesmo que a tile já tenha feito isso?)
 
@@ -196,24 +215,15 @@ class Desenhador {
   }
 
   private boolean desenhar_base(Base base, float x, float y) {
-    // Provisório
-    fill(180, 170, 170);
-    strokeWeight(0);
-    float tamanho = 50;
-    rect(x + Tile.tamanho / 4, y - tamanho, Tile.tamanho/2, tamanho);
-    noFill();
+    // Estruturas tem 2 tiles de altura
+    image(TextureLoader.textura_base(), x, y - 2*Tile.tamanho, Tile.tamanho, 2*Tile.tamanho);
     return false;
   }
 
   private boolean desenhar_mina(Mina mina, float x, float y) {
     if (mina.morreu) { return false; }
 
-    // Provisório
-    fill(100, 0, 230);
-    strokeWeight(0);
-    float tamanho = 50;
-    rect(x + Tile.tamanho / 4, y - tamanho, Tile.tamanho/2, tamanho);
-    noFill();
+    image(TextureLoader.textura_mina(mina.nivel), x, y - 2*Tile.tamanho, Tile.tamanho, 2*Tile.tamanho);
     return false;
   }
 
@@ -221,12 +231,7 @@ class Desenhador {
 
     if (torre.morreu) { return false; }
 
-    // Provisório
-    fill(100, 230, 100);
-    strokeWeight(0);
-    float tamanho = 50;
-    rect(x + Tile.tamanho / 4, y - tamanho, Tile.tamanho/2, tamanho);
-    noFill();
+    image(TextureLoader.textura_torre(torre.nivel), x, y - 2*Tile.tamanho, Tile.tamanho, 2*Tile.tamanho);
     return false;
   }
 

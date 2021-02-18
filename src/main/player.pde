@@ -1,11 +1,9 @@
 class Player {
 
   float x_local, y_local;
-  float tamanho = 20;
   float velocidade = 120;
 
   
-  PImage seta_img;
   float seta_largura_img;
   float seta_altura_img;
   float seta_margens;
@@ -22,14 +20,10 @@ class Player {
     this.mundo_ref = mundo_ref;
     
     this.x_local = Tile.tamanho / 2;
-    this.y_local = height / 2 + 70 - this.tamanho / 2;
+    this.y_local = height / 2 + 70 - (Tile.tamanho/2);
 
     this.dinheiros_no_bolso = 999999; // mt por agora
 
-    final String PPATH="assets/texturas/";
-    final String FN="seta.png";
-
-    this.seta_img = loadImage(PPATH+FN);
     this.seta_largura_img = width / 8;
     this.seta_altura_img = height / 8;
     this.seta_margens = width / 16;

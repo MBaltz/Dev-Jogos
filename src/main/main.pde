@@ -41,6 +41,11 @@ void carregar_jogo() {
   msg_carregamento = "Handler de entrada criado.";
 
 
+  msg_carregamento = "Carregando texturas...";
+  TextureLoader.carregar_texturas(new TextureLoaderHelper());
+  msg_carregamento = "Texturas carregadas.";
+
+
   msg_carregamento = "Tudo ok";
   jogo_carregado = true;
   thread("atualizar");
@@ -70,6 +75,7 @@ void draw() {
   if(jogo_carregado) {
     // desenha levando em consideração a posição da camera
     desenhador.desenhar(mundo, camera_obj);
+    TextureLoader.atualizar();
   }
   else {
     desenhar_tela_carregamento();

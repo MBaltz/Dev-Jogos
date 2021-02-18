@@ -12,8 +12,7 @@ class Inimigo {
     this.mundo_ref = mundo_ref;
     
     this.x = x_inicial;
-    this.y = height/2 + 50; // Provisório
-
+    this.y = height / 2 + 70 - (Tile.tamanho/2);
     this.vida = 5;
     this.dano = 0.55;
     this.velocidade = 10.5;
