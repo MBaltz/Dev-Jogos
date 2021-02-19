@@ -104,7 +104,7 @@ class Mundo {
       } else {
         // Spawna inimigo na esquerda
         this.inimigos.add(new Inimigo(this,
-          -(this.tamanho_x_mapa/2)-(quant_ini_esq*espaco_inimigos))
+          -(this.tamanho_x_mapa/2)-(quant_ini_esq*espaco_inimigos)-Tile.tamanho)
         );
         quant_ini_esq += 1;
       }

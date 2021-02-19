@@ -40,6 +40,8 @@ void carregar_jogo() {
   //  (singleton não funciona por causa da linguagem)
   Entrada.desenhador_ref = desenhador;
   Entrada.camera_ref = camera_obj;
+  Entrada.tamanho_x_mapa = mundo.tamanho_x_mapa;
+  Entrada.largura_tela = width;
   msg_carregamento = "Handler de entrada criado.";
 
 

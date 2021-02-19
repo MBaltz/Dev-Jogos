@@ -47,7 +47,7 @@ class Desenhador {
     for (Inimigo i : copia_inimigos) {
       // Se não estiver morto e estiver dentro do cenário, desenha
       if (!i.morto
-        && (i.x > -this.mundo_clone.tamanho_x_mapa/2
+        && (i.x > -this.mundo_clone.tamanho_x_mapa/2-Tile.tamanho
         && i.x < this.mundo_clone.tamanho_x_mapa/2)
         ) {
         this.desenhar_inimigo(i);
@@ -145,7 +145,7 @@ class Desenhador {
     noFill();
     rect(x_carteira, y_carteira, largura_carteira, altura_carteira);
     textAlign(CENTER, CENTER);
-    text("No bolso: $" + String.format("%.2f", player.dinheiros_no_bolso), 
+    text("No bolso: $" + String.format("%.2f", player.dinheiros_no_bolso),
       x_carteira, y_carteira, largura_carteira, altura_carteira
       );
     popMatrix();
@@ -164,7 +164,7 @@ class Desenhador {
     rect(x_carteira, y_carteira, largura_carteira, altura_carteira);
     textAlign(CENTER, CENTER);
     fill(255);
-    text("DIA: " + this.mundo_clone.dia, 
+    text("DIA: " + this.mundo_clone.dia,
       x_carteira, y_carteira, largura_carteira, altura_carteira
       );
     popMatrix();
@@ -174,11 +174,11 @@ class Desenhador {
     pushMatrix(); // tudo entre isso e o popmatrix vai ser descartado
     scale(-1, 1); // pra rodar a imagem em 180º no x
     //desenha a imagem
-    image(TextureLoader.textura_seta_player(), player.seta_esq_x, player.seta_y_off, 
+    image(TextureLoader.textura_seta_player(), player.seta_esq_x, player.seta_y_off,
       player.seta_largura_img, player.seta_altura_img
       );
     popMatrix(); // descarta o scale mas a seta já desenhada fica renderizada
-    image(TextureLoader.textura_seta_player(), player.seta_dir_x, player.seta_y_off, 
+    image(TextureLoader.textura_seta_player(), player.seta_dir_x, player.seta_y_off,
       player.seta_largura_img, player.seta_altura_img
       );
 
@@ -210,13 +210,13 @@ class Desenhador {
   private boolean desenhar_estrutura(Estrutura estrutura, float x, float y) {
     //TODO: verificar se ta dentro da tela (mesmo que a tile já tenha feito isso?)
 
-    if (estrutura.tipo == Tipo_Estrutura.BASE) { 
+    if (estrutura.tipo == Tipo_Estrutura.BASE) {
       return this.desenhar_base((Base) estrutura, x, y);
     }
-    if (estrutura.tipo == Tipo_Estrutura.MINA) { 
+    if (estrutura.tipo == Tipo_Estrutura.MINA) {
       return this.desenhar_mina((Mina) estrutura, x, y);
     }
-    if (estrutura.tipo == Tipo_Estrutura.TORRE) { 
+    if (estrutura.tipo == Tipo_Estrutura.TORRE) {
       return this.desenhar_torre((Torre) estrutura, x, y);
     }
     return true;
@@ -229,7 +229,7 @@ class Desenhador {
   }
 
   private boolean desenhar_mina(Mina mina, float x, float y) {
-    if (mina.morreu) { 
+    if (mina.morreu) {
       return false;
     }
 
@@ -239,7 +239,7 @@ class Desenhador {
 
   private boolean desenhar_torre(Torre torre, float x, float y) {
 
-    if (torre.morreu) { 
+    if (torre.morreu) {
       return false;
     }
 
@@ -248,7 +248,7 @@ class Desenhador {
   }
 
   private void desenhar_projetil(Projetil projetil) {
-    stroke(0, 0, 255); 
+    stroke(0, 0, 255);
     fill(255, 185, 200);
     float ponta_x = projetil.x - projetil.tamanho * cos(projetil.angulo);
     float ponta_y = projetil.y - projetil.tamanho * sin(projetil.angulo);
