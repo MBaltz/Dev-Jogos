@@ -114,12 +114,11 @@ class TextureLoaderHelper {
   }
 
   private void carregar_texturas_bg() {
-    // background_01 é sempre o sol
 
-    for(int i = 0; i < 3; i++) {
+    for(int i = 1; i < 8; i++) {
       String textura_idx = String.format("%02d", i);
-      String BG_SOL = "background_01_" + textura_idx + ".png";
-      String BG_SEM_SOL = "background_02_" + textura_idx + ".png";
+      String BG_SOL = "bg_dia_" + textura_idx + ".png";
+      String BG_SEM_SOL = "bg_dia_" + textura_idx + "_x.png";
 
       this.conjunto_texturas.texturas_bg_sol.add(loadImage(TEXTURA_PATH + BG_SOL));
       this.conjunto_texturas.texturas_bg.add(loadImage(TEXTURA_PATH + BG_SEM_SOL));
