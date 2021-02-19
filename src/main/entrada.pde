@@ -11,9 +11,19 @@ static class Entrada {
   static float clique_x;
   static float clique_y;
 
+  // Para limitar o movimento da câmera dado o tamanho do mapa
+  static float tamanho_x_mapa;
+  static float largura_tela;
+
   // Mover mover camera
   public static void mover(float dx) {
     if(Entrada.desenhador_ref.mouse_na_regiao_controles() || Entrada.desenhador_ref.tem_popup()) {
+      return;
+    }
+    // Não move a câmera além das bordas do mapa (limita às bordas da tela)
+    if(Entrada.camera_ref.x-dx > Entrada.tamanho_x_mapa/2 - Entrada.largura_tela ||
+      Entrada.camera_ref.x-dx < -Entrada.tamanho_x_mapa/2)
+    {
       return;
     }
     Entrada.camera_ref.mover(dx);

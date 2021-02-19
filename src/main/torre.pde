@@ -12,7 +12,7 @@ class Torre extends Estrutura {
 
     this.projeteis = mundo_ref.projeteis;
     this.inimigos = mundo_ref.inimigos;
-    
+
     this.idx_tile = (int) x_off_inicial;
     this.x_off  = x_off_inicial * Tile.tamanho;
     this.y_off = height/2 + 20;
@@ -50,6 +50,9 @@ class Torre extends Estrutura {
         Projetil p = new Projetil(this.x_off + Tile.tamanho/2, this.y_off, ini_mais_perto.x, ini_mais_perto.y);
         this.projeteis.add(p); // Mete bala no bicho
       }
+    }
+    if(this.morreu && this.decomposicao > 0) {
+      this.decomposicao -= 0.062;
     }
   }
 

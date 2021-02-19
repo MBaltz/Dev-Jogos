@@ -40,6 +40,8 @@ void carregar_jogo() {
   //  (singleton não funciona por causa da linguagem)
   Entrada.desenhador_ref = desenhador;
   Entrada.camera_ref = camera_obj;
+  Entrada.tamanho_x_mapa = mundo.tamanho_x_mapa;
+  Entrada.largura_tela = width;
   msg_carregamento = "Handler de entrada criado.";
 
 
@@ -104,7 +106,6 @@ void desenhar_tela_carregamento() {
 void mouseDragged() { // apertou e arrastou pra mover a camera
   if(jogo_carregado) {
     float diff = mouseX - pmouseX; // direção do arrasto
-    //TODO: só atualizar se não chegou nos limites do mapa
     Entrada.mover(diff); // atualiza a camera
   }
 }

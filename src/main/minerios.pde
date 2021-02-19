@@ -13,7 +13,7 @@ public enum Minerio {
 
   private static final Map<String, Minerio> NOMES = new HashMap();
   private static final Map<Float, Minerio> VALORES =  new HashMap();
-  
+
 
   static {
     for (Minerio m : values()) {
@@ -22,26 +22,26 @@ public enum Minerio {
     }
   }
 
-  
+
   public final String nome;
   public final float valor;
   public final float probabilidade;
   private static Random rnd = new Random();
-  
+
   private Minerio(String nome, float valor, float probabilidade) {
     this.nome = nome;
     this.valor = valor;
     this.probabilidade = probabilidade;
   }
-  
+
   public static Minerio pegar_minero_por_nome(String nome) {
     return NOMES.get(nome);
   }
 
-  
-  @Override 
-  public String toString() { 
-    return this.nome; 
+
+  @Override
+  public String toString() {
+    return this.nome;
   }
 
   public static Minerio escolher_minerio() {
@@ -64,5 +64,5 @@ public enum Minerio {
     return retorno; // ué
   }
 
-  
+
 }
