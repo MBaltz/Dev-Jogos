@@ -97,7 +97,7 @@ class Popup {
 
   private void desenhar_btn_generico(int idx, String texto_btn, Method fn, Object[] param) {
     float tamanho_x = width - 2*(width / 8);
-    float tamanho_y = width / 12;
+    float tamanho_y = height / 8;
     float pos_x = (width / 8);
     float pos_y = (idx * this.separacao_btn) * tamanho_y;
 
@@ -199,9 +199,9 @@ class Popup {
 
       pushMatrix();
       float x_texto = (width / 7);
-      float y_texto_1 = (height / 4);
-      float y_texto_2 = (height / 4) + (height / 16);
-      float y_texto_3 = (height / 4) + 2*(height / 16);
+      float y_texto_1 = (height / 3.5);
+      float y_texto_2 = (height / 3.5) + (height / 16);
+      float y_texto_3 = (height / 3.5) + 2*(height / 16);
       textAlign(LEFT);
       noFill();
 
@@ -259,8 +259,8 @@ class Popup {
 
       pushMatrix();
       float x_texto = (width / 7);
-      float y_texto_1 = (height / 4);
-      float y_texto_2 = (height / 4) + (height / 16);
+      float y_texto_1 = (height / 3.5);
+      float y_texto_2 = (height / 3.5) + (height / 16);
       textAlign(LEFT);
       noFill();
 

@@ -10,8 +10,8 @@ String msg_carregamento = "";
 void setup() {
   frameRate(fps);
   orientation(LANDSCAPE); // modo paisagem no celular
-  //fullScreen(); // tela cheia
-  size(1130, 720);
+  fullScreen(); // tela cheia
+  //size(1130, 720);
   thread("carregar_jogo");
 }
 
@@ -109,6 +109,8 @@ void mouseDragged() { // apertou e arrastou pra mover a camera
 
 void mouseReleased() {
   if(jogo_carregado) {
+    // melhorar esse sistema de entrada, por algum motivo as vezes não funciona
+    // mas nada que atrapalhe muito a jogabilidade, provavel que seja só uma besteirinha
     Entrada.clicar(mouseX, mouseY);
   }
 }

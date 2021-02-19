@@ -1,6 +1,6 @@
 // Quadradinho/Tijolo do jogo (voxel 2d)
 class Tile {
-  static final float tamanho = 40; // tamanho em pixel do quadrado (provisorio)
+  static final float tamanho = 80; // tamanho em pixel do quadrado (provisorio)
   int num_tile; //posição do tile a respeito do mundo
   float r, g, b; // cores provisorias
   Estrutura estrutura;
@@ -96,7 +96,7 @@ class Tile {
       float clique_x = Entrada.clique_x;
       float clique_y = Entrada.clique_y;
 
-      if(clique_x > this.x_com_camera && clique_x < this.x_com_camera + Tile.tamanho && clique_y > this.y && clique_y < this.y + Tile.tamanho) {
+      if(clique_x > this.x_com_camera && clique_x < this.x_com_camera + Tile.tamanho && clique_y > (this.y - 2*Tile.tamanho) && clique_y < this.y + Tile.tamanho) {
         Entrada.limpar_clique();
         float x_player = this.mundo_ref.player.x_local;
         if(x_player > this.x && x_player < this.x + Tile.tamanho) {

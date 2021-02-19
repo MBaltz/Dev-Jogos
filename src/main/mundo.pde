@@ -91,7 +91,7 @@ class Mundo {
   }
 
   private void spawn(int quant_ini) {
-    int espaco_inimigos = 60; // Distância entre um inimigo e o próximo
+    int espaco_inimigos = (int) (Tile.tamanho * 1.2); // Distância entre um inimigo e o próximo
     int quant_ini_esq = 0; // Para spawnar sem usar tempo
     int quant_ini_dir = 0; // Spawna todos de uma vez, com dst. entre um e outro
     for(int i = 0; i < quant_ini; i++) {
