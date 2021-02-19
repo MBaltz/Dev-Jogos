@@ -19,7 +19,7 @@ class Mina extends Estrutura {
     this.vida = 50;
     this.nivel = 0;
     this.valor_acumulado = 0;
-    this.qualidade_mineracao = 0.1;
+    this.qualidade_mineracao = 0.5;
     this.dt_acumulado = 0;
   }
 
@@ -33,12 +33,12 @@ class Mina extends Estrutura {
   }
 
   public void melhorar_qualidade() {
-    this.qualidade_mineracao += 0.1;
+    this.qualidade_mineracao += 0.5;
     this.nivel++;
   }
 
   public float custo_melhoramento() {
-    return pow(2, this.nivel) * 100;
+    return pow(1.8, this.nivel) * 10;
   }
 
 }

@@ -1,9 +1,9 @@
 class Player {
 
   float x_local, y_local;
-  float velocidade = 120;
+  float velocidade = 135;
 
-  
+
   float seta_largura_img;
   float seta_altura_img;
   float seta_margens;
@@ -18,7 +18,7 @@ class Player {
   public Player(Mundo mundo_ref) {
 
     this.mundo_ref = mundo_ref;
-    
+
     this.x_local = Tile.tamanho / 2;
     this.y_local = height / 2 + 70 - (Tile.tamanho/2);
 
@@ -43,7 +43,7 @@ class Player {
       if(keyCode == RIGHT && this.x_local < tamanho_x_mapa/2){
         this.x_local += this.velocidade * dt;
       }
- 
+
     }
 
     if(mousePressed == true) {

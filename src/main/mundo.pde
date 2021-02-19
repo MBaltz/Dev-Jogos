@@ -25,14 +25,14 @@ class Mundo {
     this.tiles          = new ArrayList<Tile>();
     this.projeteis      = new ArrayList<Projetil>();
 
-    this.seg_limpar_arrays = 10.0;
+    this.seg_limpar_arrays = 5.0;
     this.dt_somador_limpar_arrays = 0.0;
 
     // para calcular borda do mapa
     this.tamanho_x_mapa = num_tiles*Tile.tamanho;
 
     this.dia = 0;
-    this.segundos_em_um_dia = 30;
+    this.segundos_em_um_dia = 20;
     this.segundos_dia_atual = 0;
     this.num_ini_ultima_orda = 3;
 
@@ -66,8 +66,8 @@ class Mundo {
     if(this.dt_somador_limpar_arrays > this.seg_limpar_arrays) {
       this.limpar_arrays();
       this.dt_somador_limpar_arrays = 0;
-   }
-   dt_somador_limpar_arrays += dt;
+    }
+    dt_somador_limpar_arrays += dt;
 
     for(Tile t : this.tiles) {
       t.atualizar(dt);
@@ -89,7 +89,7 @@ class Mundo {
 
     if(this.segundos_dia_atual >= this.segundos_em_um_dia) {
       this.dia += 1; // Oto lindo e ensolarado dia
-      this.segundos_em_um_dia += 1; // O dia fica mais longo 1 segundos
+      this.segundos_em_um_dia += 2; // O dia fica mais longo 1 segundos
       this.segundos_dia_atual = 0; // Amanhece de novo
       if(this.dia % 2 == 1) { // Spawna inimigo se o dia for ímpar
         this.num_ini_ultima_orda = prox_primo(num_ini_ultima_orda);
@@ -138,7 +138,7 @@ class Mundo {
 
   // Limpa arrays (remove elementos que não serão mais utilizados)
   public void limpar_arrays() {
-    // Remove Estruturas decompostos
+    // Remove Estruturas decompostas
     for(int i = this.tiles.size()-1; i >= 0; i--) { // Começa de trás pra frente
       if(this.tiles.get(i).estrutura != null && this.tiles.get(i).estrutura.decomposicao <= 0) {
         this.tiles.get(i).estrutura = null;

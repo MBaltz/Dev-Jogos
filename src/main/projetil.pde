@@ -32,11 +32,11 @@ class Projetil {
   }
 
   public void atualizar(float dt, ArrayList<Inimigo> inimigos, float tamanho_x_mapa) {
-    acertou_inimigo(inimigos);
+    acertou_inimigo(inimigos); // Ao acertar, this.ativo = false
     if(this.ativo) {
       this.x = this.x + cos(this.angulo) * this.velocidade * dt;
       this.y = this.y + sin(this.angulo) * this.velocidade * dt;
-      // Se bater nas bordas do mapa ou chão, ele desativa o projetil
+      // Se bater nas bordas do mapa ou chão, ele desativa o projétil
       if(this.y > height/2+70+this.tamanho || this.y < 0) {
         this.ativo = false;
       } else if (this.x < -tamanho_x_mapa/2 || this.x > tamanho_x_mapa/2) {
@@ -53,7 +53,7 @@ class Projetil {
         // O motivo por ser '- Tile.tamanho/2' é um enigma
         if(abs(this.x - i.x - Tile.tamanho/2) < Tile.tamanho/4) {
           i.levar_dano(this.dano);
-          this.ativo = false; // Discarta projétil
+          this.ativo = false; // Descarta projétil
         }
       }
     }

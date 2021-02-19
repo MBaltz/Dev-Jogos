@@ -8,7 +8,7 @@ public enum Tipo_Estrutura {
 abstract class Estrutura {
   public float x;
   public float y;
-  public static final float custo_construir = 1000;
+  public static final float custo_construir = 100;
   public Tipo_Estrutura tipo;
   public boolean morreu = false;
   public float decomposicao = 1.0;
