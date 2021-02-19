@@ -106,7 +106,6 @@ void desenhar_tela_carregamento() {
 void mouseDragged() { // apertou e arrastou pra mover a camera
   if(jogo_carregado) {
     float diff = mouseX - pmouseX; // direção do arrasto
-    //TODO: só atualizar se não chegou nos limites do mapa
     Entrada.mover(diff); // atualiza a camera
   }
 }

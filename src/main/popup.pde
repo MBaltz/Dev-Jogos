@@ -79,19 +79,19 @@ class Popup {
   private void desenhar_btns() {
     this.desenhar_btn_mina_torre(this.idx_torre, null,
       "Construir torre" +
-      ": $" + String.format("%.2f", Mina.custo_construir)
+      ": $" + String.format("%.2f", Torre.custo_construir)
     );
     this.desenhar_btn_mina_torre(this.idx_minerio_1, this.tile.minerio_1,
       "Construir mina de " + this.tile.minerio_1 +
-      ": $" + String.format("%.2f", Mina.custo_construir)
+      ": $" + String.format("%.2f", Mina.custo_construir*this.tile.minerio_1.valor)
     );
     this.desenhar_btn_mina_torre(this.idx_minerio_2, this.tile.minerio_2,
       "Construir mina de " + this.tile.minerio_2 +
-      ": $" + String.format("%.2f", Mina.custo_construir)
+      ": $" + String.format("%.2f", Mina.custo_construir*this.tile.minerio_2.valor)
     );
     this.desenhar_btn_mina_torre(this.idx_minerio_3, this.tile.minerio_3,
       "Construir mina de " + this.tile.minerio_3 +
-      ": $" + String.format("%.2f", Mina.custo_construir)
+      ": $" + String.format("%.2f", Mina.custo_construir*this.tile.minerio_3.valor)
     );
   }
 
@@ -173,9 +173,9 @@ class Popup {
   }
 
   public void construir_mina(Minerio minerio) {
-    if(this.tile.mundo_ref.player.dinheiros_no_bolso >= Mina.custo_construir) {
+    if(this.tile.mundo_ref.player.dinheiros_no_bolso >= Mina.custo_construir*minerio.valor) {
       this.tile.set_mina(minerio);
-      this.tile.mundo_ref.player.dinheiros_no_bolso -= Mina.custo_construir;
+      this.tile.mundo_ref.player.dinheiros_no_bolso -= Mina.custo_construir*minerio.valor;
     } else {
       this.deve_fechar = false;
     }

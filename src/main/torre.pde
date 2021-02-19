@@ -12,7 +12,7 @@ class Torre extends Estrutura {
 
     this.projeteis = mundo_ref.projeteis;
     this.inimigos = mundo_ref.inimigos;
-    
+
     this.idx_tile = (int) x_off_inicial;
     this.x_off  = x_off_inicial * Tile.tamanho;
     this.y_off = height/2 + 20;
