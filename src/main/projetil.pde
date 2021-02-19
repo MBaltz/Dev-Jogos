@@ -7,14 +7,7 @@ Como entrada par ao construtor, tem-se a posição de partida do projétil e
 a posição do alvo.
 */
 class Projetil {
-
-  // TODO: pensar e implementar varredura de vetores (para n remover a todo momento)
-  // Desse modo, no Mundo, pode-se implementar uma verificação para
-  // varredura de coisas desativadas a cada tantos frames.
-  // if(frameRate%150) {mundo.varrer()}
-  // Lembrar de pegar os inimigos e torres com decomposicao < 0
   boolean ativo;
-
   float x, y, angulo, velocidade, dano;
   // Para otimizar o processo remoção do vetor
   int tamanho;
@@ -56,19 +49,12 @@ class Projetil {
   // Calcula se o projétil acertou algum inimigo
   private void acertou_inimigo(ArrayList<Inimigo> inimigos) {
     for(Inimigo i : inimigos) {
-
-      // TODO: O impacto do projétil tem que ser calculado do centro do ini.
-      //    e não da quina (0, 0). (resolver isso colocando os tamanhos dos
-      //    objetos diretamente nas suas classes. ex: ini.tamanho_x)
-      //    Isso deve ser feito pra praticamente tudo que se mova ou interaja
-      //    (inimigo, torre, projetil, player, base)
-      //    Assim resolve também  problema de identificar o quão longe o clique
-      //    da pessoa naquele objeto, está, pois da pra calcular o "centro de
-      //    massa" daquele objeto.
-
-      if(!i.morto && abs(this.x - i.x) < 5) {
-        i.levar_dano(this.dano);
-        this.ativo = false; // Projétil discartado
+      if(!i.morto) {
+        // O motivo por ser '- Tile.tamanho/2' é um enigma
+        if(abs(this.x - i.x - Tile.tamanho/2) < Tile.tamanho/4) {
+          i.levar_dano(this.dano);
+          this.ativo = false; // Discarta projétil
+        }
       }
     }
   }

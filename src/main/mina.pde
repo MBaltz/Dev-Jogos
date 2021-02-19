@@ -9,13 +9,13 @@ class Mina extends Estrutura {
   float qualidade_mineracao;
   float dt_acumulado = 0;
 
-  public Mina(float x_off_inicial, Minerio minerio) {
+  public Mina(float x_inicial, Minerio minerio) {
     this.tipo = Tipo_Estrutura.MINA;
 
     this.minerio = minerio;
-    this.idx_tile = (int) x_off_inicial;
-    this.x_off  = x_off_inicial * Tile.tamanho;
-    this.y_off = height/2 + 20;
+    this.idx_tile = (int) x_inicial;
+    this.x  = x_inicial * Tile.tamanho;
+    this.y = height/2 + 20;
     this.vida = 50;
     this.nivel = 0;
     this.valor_acumulado = 0;

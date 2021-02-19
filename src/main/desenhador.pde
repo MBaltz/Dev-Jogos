@@ -52,7 +52,6 @@ class Desenhador {
         ) {
         this.desenhar_inimigo(i);
       }
-      // TODO: Se o inimigo morrer, fazer ele não sumir do nada
     }
 
     // Desenha os Projeteis
@@ -125,7 +124,9 @@ class Desenhador {
   }
 
   private void desenhar_player(Player player) {
-    //TODO: verificar se tá na tela
+    // O player é desenhado mesmo quando não está na tela
+    //  (é só um objeto, então não tem problema)
+    //  (Talvez seja até melhor não verificar)
 
     this.desenhar_setas_player(player);
 
@@ -173,18 +174,18 @@ class Desenhador {
     pushMatrix(); // tudo entre isso e o popmatrix vai ser descartado
     scale(-1, 1); // pra rodar a imagem em 180º no x
     //desenha a imagem
-    image(TextureLoader.textura_seta_player(), player.seta_esq_x, player.seta_y_off,
+    image(TextureLoader.textura_seta_player(), player.seta_esq_x, player.seta_y,
       player.seta_largura_img, player.seta_altura_img
       );
     popMatrix(); // descarta o scale mas a seta já desenhada fica renderizada
-    image(TextureLoader.textura_seta_player(), player.seta_dir_x, player.seta_y_off,
+    image(TextureLoader.textura_seta_player(), player.seta_dir_x, player.seta_y,
       player.seta_largura_img, player.seta_altura_img
       );
 
     this.seta_largura = player.seta_largura_img;
     this.seta_altura = player.seta_altura_img;
 
-    this.seta_y = player.seta_y_off;
+    this.seta_y = player.seta_y;
 
     this.seta_x1 = player.seta_esq_x + 2* this.seta_largura;
     this.seta_x2 = player.seta_dir_x;
@@ -249,9 +250,6 @@ class Desenhador {
   private void desenhar_projetil(Projetil projetil) {
     stroke(0, 0, 255);
     fill(255, 185, 200);
-    float ponta_x = projetil.x - projetil.tamanho * cos(projetil.angulo);
-    float ponta_y = projetil.y - projetil.tamanho * sin(projetil.angulo);
-    // line(projetil.x - this.camera_x, projetil.y, ponta_x - this.camera_x, ponta_y);
     ellipse(projetil.x - this.camera_x, projetil.y, 4, 4);
   }
 }
