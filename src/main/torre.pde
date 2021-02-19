@@ -7,15 +7,15 @@ class Torre extends Estrutura {
   ArrayList<Projetil> projeteis;
   ArrayList<Inimigo> inimigos;
 
-  public Torre(float x_off_inicial, Mundo mundo_ref) {
+  public Torre(float x_inicial, Mundo mundo_ref) {
     this.tipo = Tipo_Estrutura.TORRE;
 
     this.projeteis = mundo_ref.projeteis;
     this.inimigos = mundo_ref.inimigos;
 
-    this.idx_tile = (int) x_off_inicial;
-    this.x_off  = x_off_inicial * Tile.tamanho;
-    this.y_off = height/2 + 20;
+    this.idx_tile = (int) x_inicial;
+    this.x  = x_inicial * Tile.tamanho;
+    this.y = height/2 + 20;
     this.vida = 50;
     this.cadencia = 1; // x disparos por segundo
     this.dt_soma_cadencia = 0; // Auxiliador na realização da cadência
@@ -38,7 +38,7 @@ class Torre extends Estrutura {
       float dist_ini_perto = 9999999; // Lááá longe
       // Pega o inimigo mais perto da torre
       for(Inimigo i : this.inimigos) {
-        float dist_i = abs(this.x_off - i.x);
+        float dist_i = abs(this.x - i.x);
         if(!i.morto && dist_i <= this.alcance && dist_i < dist_ini_perto) {
           ini_mais_perto = i;
           dist_ini_perto = dist_i;
@@ -47,7 +47,7 @@ class Torre extends Estrutura {
       // Só atira se tiver algum inimigo próximo da torre
       if(!ini_mais_perto.morto) {
         // Torre atira no inimigo mais perto
-        Projetil p = new Projetil(this.x_off + Tile.tamanho/2, this.y_off, ini_mais_perto.x + Tile.tamanho/2, ini_mais_perto.y);
+        Projetil p = new Projetil(this.x + Tile.tamanho/2, this.y, ini_mais_perto.x + Tile.tamanho/2, ini_mais_perto.y);
         this.projeteis.add(p); // Mete bala no bicho
       }
     }

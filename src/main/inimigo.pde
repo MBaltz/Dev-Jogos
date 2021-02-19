@@ -43,14 +43,13 @@ class Inimigo {
       if(estrutura == null || estrutura.tipo != Tipo_Estrutura.TORRE) { continue; }
       Torre t = (Torre) estrutura;
       // Se chegou perto d+ de alguma torre viva
-      if(!t.morreu && abs(this.x - t.x_off) <= Tile.tamanho/2) {
+      if(!t.morreu && abs(this.x - t.x) <= Tile.tamanho/2) {
         this.atacando = true; // Para ficar paradinho enquanto ataca
         t.levar_dano(this.dano); // Dá o dano na torre t
       }
     }
   }
 
-  // TODO: Torre também tem esse método, cabe uma classe abstrata CoisaVida??
   // O inimigo que dá dano na torre
   public void levar_dano(float dano) {
     this.vida -= dano;
