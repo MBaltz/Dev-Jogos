@@ -249,9 +249,6 @@ class Desenhador {
   private void desenhar_projetil(Projetil projetil) {
     stroke(0, 0, 255);
     fill(255, 185, 200);
-    float ponta_x = projetil.x - projetil.tamanho * cos(projetil.angulo);
-    float ponta_y = projetil.y - projetil.tamanho * sin(projetil.angulo);
-    // line(projetil.x - this.camera_x, projetil.y, ponta_x - this.camera_x, ponta_y);
     ellipse(projetil.x - this.camera_x, projetil.y, 4, 4);
   }
 }

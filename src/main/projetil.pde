@@ -49,19 +49,12 @@ class Projetil {
   // Calcula se o projétil acertou algum inimigo
   private void acertou_inimigo(ArrayList<Inimigo> inimigos) {
     for(Inimigo i : inimigos) {
-
-      // TODO: O impacto do projétil tem que ser calculado do centro do ini.
-      //    e não da quina (0, 0). (resolver isso colocando os tamanhos dos
-      //    objetos diretamente nas suas classes. ex: ini.tamanho_x)
-      //    Isso deve ser feito pra praticamente tudo que se mova ou interaja
-      //    (inimigo, torre, projetil, player, base)
-      //    Assim resolve também  problema de identificar o quão longe o clique
-      //    da pessoa naquele objeto, está, pois da pra calcular o "centro de
-      //    massa" daquele objeto.
-
-      if(!i.morto && abs(this.x - i.x) < 5) {
-        i.levar_dano(this.dano);
-        this.ativo = false; // Projétil discartado
+      if(!i.morto) {
+        // O motivo por ser '- Tile.tamanho/2' é um enigma
+        if(abs(this.x - i.x - Tile.tamanho/2) < Tile.tamanho/4) {
+          i.levar_dano(this.dano);
+          this.ativo = false; // Discarta projétil
+        }
       }
     }
   }
