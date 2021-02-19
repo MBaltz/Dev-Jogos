@@ -12,6 +12,7 @@ class Projetil {
   // Desse modo, no Mundo, pode-se implementar uma verificação para
   // varredura de coisas desativadas a cada tantos frames.
   // if(frameRate%150) {mundo.varrer()}
+  // Lembrar de pegar os inimigos e torres com decomposicao < 0
   boolean ativo;
 
   float x, y, angulo, velocidade, dano;

@@ -13,8 +13,7 @@ abstract class Estrutura {
   public static final float custo_construir = 1000;
   public Tipo_Estrutura tipo;
   public boolean morreu = false;
-  // TODO: Colocar estruturas para ir desaparecendo aos poucos
-  public float decomposicao = 0.0;
+  public float decomposicao = 1.0;
 
   public abstract void atualizar(float dt);
 

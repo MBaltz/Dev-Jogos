@@ -51,6 +51,9 @@ class Torre extends Estrutura {
         this.projeteis.add(p); // Mete bala no bicho
       }
     }
+    if(this.morreu && this.decomposicao > 0) {
+      this.decomposicao -= 0.062;
+    }
   }
 
   // O inimigo que dá dano na torre

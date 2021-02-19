@@ -63,7 +63,7 @@ class Tile {
     }
   }
 
-  @Override 
+  @Override
   public String toString() {
     String ret = "{Tile: " + this.num_tile;
     ret += ", estrutura: " + (this.estrutura != null ? this.estrutura.tipo.toString() : "nenhuma");
@@ -77,9 +77,9 @@ class Tile {
   public void atualizar(float dt) {
 
     this.verificar_se_popup_deve_ser_aberto();
-    
+
     if(this.estrutura != null) {
-      if(this.estrutura.morreu) {
+      if(this.estrutura.morreu && this.estrutura.decomposicao <= 0) {
         this.estrutura = null; //garbage collector vai trabaia
       } else {
         this.estrutura.atualizar(dt);
@@ -102,9 +102,9 @@ class Tile {
         if(x_player > this.x && x_player < this.x + Tile.tamanho) {
           this.popup = new Popup(this);
         }
-        
+
       }
-    }   
+    }
   }
 
   public boolean em_popup() {

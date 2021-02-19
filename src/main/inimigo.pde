@@ -1,6 +1,6 @@
 class Inimigo {
 
-  float x, y, vida, velocidade, dano;
+  float x, y, vida, velocidade, dano, decomposicao;
   // Quando o inimigo está atacando, ele está parado e dando dano
   boolean atacando;
   boolean morto; // Ele não precisa necessariamente sumir do nada
@@ -10,7 +10,7 @@ class Inimigo {
   public Inimigo(Mundo mundo_ref, float x_inicial) {
 
     this.mundo_ref = mundo_ref;
-    
+
     this.x = x_inicial;
     this.y = height / 2 + 70 - (Tile.tamanho/2);
     this.vida = 5;
@@ -18,6 +18,7 @@ class Inimigo {
     this.velocidade = 10.5;
     this.atacando = false;
     this.morto = false;
+    this.decomposicao = 1.0; // Para ir sumindo aos poucos (* alpha)
   }
 
 
@@ -28,6 +29,8 @@ class Inimigo {
       float passo = dt * this.velocidade;
       if(this.x > 0) {passo *= -1;} // base em x=0, inimigo pode vim de + ou - x
       this.x += passo; // Aprocima o inimigo do centro do mundo (base)
+    } else if(this.morto && this.decomposicao > 0) {
+      this.decomposicao -= 0.065; // Vai sumindo
     }
   }
 

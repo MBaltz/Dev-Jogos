@@ -46,7 +46,7 @@ class Desenhador {
     ArrayList<Inimigo> copia_inimigos = new ArrayList<Inimigo>(mundo.inimigos);
     for (Inimigo i : copia_inimigos) {
       // Se não estiver morto e estiver dentro do cenário, desenha
-      if (!i.morto
+      if(i.decomposicao > 0
         && (i.x > -this.mundo_clone.tamanho_x_mapa/2-Tile.tamanho
         && i.x < this.mundo_clone.tamanho_x_mapa/2)
         ) {
@@ -71,8 +71,6 @@ class Desenhador {
   private void desenhar_background() {
     //TODO: usar o tempo do dia pra escolher o background, fazer um lerp entre eles?
 
-
-    //tint(255, 127);
     PImage textura = TextureLoader.textura_bg_sol(this.mundo_clone.segundos_dia_atual, this.mundo_clone.segundos_em_um_dia);
     textura.resize(0, (int) (height/2.0 + 70.0));
     image(textura, 0 - this.camera_x - width/2, 0);
@@ -89,8 +87,6 @@ class Desenhador {
         break;
       }
     }
-
-    //tint(255, 255);
   }
 
   private boolean desenhar_tile(Tile tile) {
@@ -122,7 +118,9 @@ class Desenhador {
   private void desenhar_inimigo(Inimigo inimigo) {
     float inimigo_x = inimigo.x - this.camera_x;
     float inimigo_y = inimigo.y - (Tile.tamanho/2);
+    tint(255, 255*inimigo.decomposicao);
     image(TextureLoader.textura_inimigo(), inimigo_x, inimigo_y, Tile.tamanho, Tile.tamanho);
+    tint(255, 255);
   }
 
   private void desenhar_player(Player player) {
@@ -208,8 +206,6 @@ class Desenhador {
   }
 
   private boolean desenhar_estrutura(Estrutura estrutura, float x, float y) {
-    //TODO: verificar se ta dentro da tela (mesmo que a tile já tenha feito isso?)
-
     if (estrutura.tipo == Tipo_Estrutura.BASE) {
       return this.desenhar_base((Base) estrutura, x, y);
     }
@@ -239,11 +235,13 @@ class Desenhador {
 
   private boolean desenhar_torre(Torre torre, float x, float y) {
 
-    if (torre.morreu) {
+    if (torre.decomposicao <= 0) {
       return false;
     }
 
+    tint(255, 255*torre.decomposicao);
     image(TextureLoader.textura_torre(torre.nivel), x, y - 2*Tile.tamanho, Tile.tamanho, 2*Tile.tamanho);
+    tint(255, 255);
     return false;
   }
 

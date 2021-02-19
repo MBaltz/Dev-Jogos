@@ -63,7 +63,7 @@ class Mundo {
     this.player.atualizar(dt, this.tamanho_x_mapa);
 
     for(Inimigo i : this.inimigos) {
-      if(!i.morto) {
+      if(i.decomposicao > 0) {
         i.atualizar(dt);
       }
     }
@@ -80,7 +80,7 @@ class Mundo {
       this.segundos_dia_atual = 0; // Amanhece de novo
       if(this.dia % 2 == 1) { // Spawna inimigo se o dia for ímpar
         this.num_ini_ultima_orda = prox_primo(num_ini_ultima_orda);
-        this.spawn(num_ini_ultima_orda); // Spawna um num primo de inimigos
+        this.spawn(100); // Spawna um num primo de inimigos
         println("Novo dia!! dia: " + this.dia + ", num_ini: " + this.num_ini_ultima_orda);
       } else {
         println("Novo dia!! dia: " + this.dia + ", num_ini: Sem inimigos hoje :,]");
