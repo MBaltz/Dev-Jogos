@@ -7,11 +7,13 @@ int num_tiles = 30;
 boolean jogo_carregado = false;
 String msg_carregamento = "";
 
+//TODO: usar uma escala dos tamanhos pra mudar os tamanhos de acordo com a resolução
+
 void setup() {
   frameRate(fps);
   orientation(LANDSCAPE); // modo paisagem no celular
-  fullScreen(); // tela cheia
-  //size(1130, 720);
+  //fullScreen(); // tela cheia
+  size(1170, 540);
   thread("carregar_jogo");
 }
 
