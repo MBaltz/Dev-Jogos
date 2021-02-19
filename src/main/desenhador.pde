@@ -83,7 +83,8 @@ class Desenhador {
       image(textura, nx - this.camera_x - width/2, 0);
       image(textura, -nx - this.camera_x - width/2, 0);
       desenho++;
-      if (nx > this.mundo_clone.tamanho_x_mapa/2 || -nx < this.mundo_clone.tamanho_x_mapa/2) {
+      // faz com que desenhe um background fora dos limites do mapa, pra caso o backgroud seja pequeno não fique uma area de fora
+      if (nx > this.mundo_clone.tamanho_x_mapa/2 || nx < -(this.mundo_clone.tamanho_x_mapa/2 + textura.width)) {
         break;
       }
     }
