@@ -44,25 +44,14 @@ class TextureLoaderHelper {
   }
 
   private void carregar_texturas_player() {
-    //Cria uma imagem provisoria
-    PImage img = createImage(66, 66, RGB);
-    img.loadPixels();
-    for (int i = 0; i < img.pixels.length; i++) {
-      img.pixels[i] = color(0, 90, 102, 100); 
-    }
-    img.updatePixels();
-    this.conjunto_texturas.texturas_player.add(img);
+    final String PLAYER = "Personagem.png";
+    this.conjunto_texturas.texturas_player.add(loadImage(TEXTURA_PATH + PLAYER));
   }
 
   private void carregar_texturas_inimigos() {
     //Cria uma imagem provisoria
-    PImage img = createImage(66, 66, RGB);
-    img.loadPixels();
-    for (int i = 0; i < img.pixels.length; i++) {
-      img.pixels[i] = color(90, 0, 102); 
-    }
-    img.updatePixels();
-    this.conjunto_texturas.texturas_inimigos.add(img);
+    final String INIMIGO = "Inimigo.png";
+    this.conjunto_texturas.texturas_inimigos.add(loadImage(TEXTURA_PATH + INIMIGO));
   }
 
   private void carregar_texturas_seta_player() {
@@ -72,32 +61,19 @@ class TextureLoaderHelper {
 
   private void carregar_texturas_base() {
     //Cria uma imagem provisoria
-    PImage img = createImage(66, 66, RGB);
-    img.loadPixels();
-    for (int i = 0; i < img.pixels.length; i++) {
-      img.pixels[i] = color(190, 0, 10); 
-    }
-    img.updatePixels();
-    this.conjunto_texturas.textura_base = img;
+    String BASE = "Cofre.png";
+    this.conjunto_texturas.textura_base = loadImage(TEXTURA_PATH + BASE);
   }
 
   private void carregar_texturas_mina() {
-    //Cria uma imagem provisoria
-    for(int j = 0; j < 3; j++) {
-      PImage img = createImage(66, 66, RGB);
-      img.loadPixels();
-      for (int i = 0; i < img.pixels.length; i++) {
-        img.pixels[i] = color(190, 80*j, 100); 
-      }
-      img.updatePixels();
-      this.conjunto_texturas.texturas_minas.add(img);
-    }
+    String MINA = "Mina.png";
+    this.conjunto_texturas.texturas_minas.add(loadImage(TEXTURA_PATH + MINA));
   }
   
   private void carregar_texturas_torre() {
 
-    //Cria uma imagem provisoria
-    for(int j = 0; j < 3; j++) {
+    //nivel 1 e 2 provisoria
+    for(int j = 0; j < 2; j++) {
       PImage img = createImage(66, 66, RGB);
       img.loadPixels();
       for (int i = 0; i < img.pixels.length; i++) {
@@ -106,6 +82,11 @@ class TextureLoaderHelper {
       img.updatePixels();
       this.conjunto_texturas.texturas_torres.add(img);
     }
+
+    String TORRE = "Torre_3.png";
+    this.conjunto_texturas.texturas_torres.add(loadImage(TEXTURA_PATH + TORRE));
+
+    
   }
 
   private void carregar_texturas_tile() {
