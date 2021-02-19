@@ -7,6 +7,9 @@ class Mundo {
   ArrayList<Inimigo> inimigos;
   ArrayList<Tile> tiles;
   ArrayList<Projetil> projeteis;
+  float seg_limpar_arrays;
+  float dt_somador_limpar_arrays;
+
   float tamanho_x_mapa; // Tamanho do mundo no eixo x
 
   float segundos_em_um_dia;
@@ -21,6 +24,9 @@ class Mundo {
     this.inimigos       = new ArrayList<Inimigo>();
     this.tiles          = new ArrayList<Tile>();
     this.projeteis      = new ArrayList<Projetil>();
+
+    this.seg_limpar_arrays = 10.0;
+    this.dt_somador_limpar_arrays = 0.0;
 
     // para calcular borda do mapa
     this.tamanho_x_mapa = num_tiles*Tile.tamanho;
@@ -56,6 +62,13 @@ class Mundo {
 
   public void atualizar(float dt) {
 
+    // Se chegou a hora de lipar arrays, limpa então :D
+    if(this.dt_somador_limpar_arrays > this.seg_limpar_arrays) {
+      this.limpar_arrays();
+      this.dt_somador_limpar_arrays = 0;
+   }
+   dt_somador_limpar_arrays += dt;
+
     for(Tile t : this.tiles) {
       t.atualizar(dt);
     }
@@ -80,7 +93,7 @@ class Mundo {
       this.segundos_dia_atual = 0; // Amanhece de novo
       if(this.dia % 2 == 1) { // Spawna inimigo se o dia for ímpar
         this.num_ini_ultima_orda = prox_primo(num_ini_ultima_orda);
-        this.spawn(100); // Spawna um num primo de inimigos
+        this.spawn(num_ini_ultima_orda); // Spawna um num primo de inimigos
         println("Novo dia!! dia: " + this.dia + ", num_ini: " + this.num_ini_ultima_orda);
       } else {
         println("Novo dia!! dia: " + this.dia + ", num_ini: Sem inimigos hoje :,]");
@@ -89,6 +102,7 @@ class Mundo {
       this.segundos_dia_atual += dt;
     }
   }
+
 
   private void spawn(int quant_ini) {
     int espaco_inimigos = (int) (Tile.tamanho * 1.2); // Distância entre um inimigo e o próximo
@@ -120,5 +134,29 @@ class Mundo {
     }
     return 9999999; // Se o player chegar nesse momento, meus parabéns, viu!
   }
+
+
+  // Limpa arrays (remove elementos que não serão mais utilizados)
+  public void limpar_arrays() {
+    // Remove Estruturas decompostos
+    for(int i = this.tiles.size()-1; i >= 0; i--) { // Começa de trás pra frente
+      if(this.tiles.get(i).estrutura != null && this.tiles.get(i).estrutura.decomposicao <= 0) {
+        this.tiles.get(i).estrutura = null;
+      }
+    }
+    // Remove Inimigos decompostos
+    for(int i = this.inimigos.size()-1; i >= 0; i--) { // Começa de trás pra frente
+      if(this.inimigos.get(i).decomposicao <= 0) {
+        inimigos.remove(i);
+      }
+    }
+    // Remove Projéteis já usados
+    for(int i = this.projeteis.size()-1; i >= 0; i--) { // Começa de trás pra frente
+      if(!this.projeteis.get(i).ativo) {
+        projeteis.remove(i);
+      }
+    }
+  }
+
 
 }
