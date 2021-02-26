@@ -27,10 +27,12 @@ class Torre extends Estrutura {
   public void melhorar_cadencia() {
     this.cadencia += 0.25; this.nivel++;
     this.vida += 5; // Dá uma reformada na torre
+    if(this.vida > this.vida_max) {this.vida_max = this.vida;}
   }
   public void melhorar_alcance() {
     this.alcance += 25; this.nivel++;
     this.vida += 5; // Dá uma reformada na torre
+    if(this.vida > this.vida_max) {this.vida_max = this.vida;}
   }
   public float custo_melhoramento() {  return pow(2, this.nivel+1) * 10; }
 

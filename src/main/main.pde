@@ -16,7 +16,7 @@ float y_clicado_main = 0.0;
 void setup() {
   frameRate(fps);
   orientation(LANDSCAPE); // modo paisagem no celular
-  // fullScreen(); // tela cheia
+   //fullScreen(); // tela cheia
   size(1170, 540);
   thread("carregar_jogo");
 }
