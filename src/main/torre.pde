@@ -16,8 +16,8 @@ class Torre extends Estrutura {
     this.idx_tile = (int) x_inicial;
     this.x  = x_inicial * Tile.tamanho;
     this.y = height/2 + 20;
-    this.vida = 50;
-    this.cadencia = 0.8; // x disparos por segundo
+    this.vida = 20;
+    this.cadencia = 0.75; // x disparos por segundo
     this.dt_soma_cadencia = 0; // Auxiliador na realização da cadência
     this.nivel = 0;
     this.alcance = 200; // Alcance de inimigos em pixels

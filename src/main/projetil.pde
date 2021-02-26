@@ -17,7 +17,7 @@ class Projetil {
     this.x = inicio_x;
     this.y = inicio_y;
     this.velocidade = 95.0;
-    this.dano = 1.5;
+    this.dano = 1;
 
     // Cálculo do ângulo que o projétil irá seguir
     // EVIDENCIAR QUE É (Y, X), E NÃO (X, Y)!!!!!!
@@ -51,7 +51,7 @@ class Projetil {
     for(Inimigo i : inimigos) {
       if(!i.morto) {
         // O motivo por ser '- Tile.tamanho/2' é um enigma
-        if(abs(this.x - i.x - Tile.tamanho/2) < Tile.tamanho/4) {
+        if(abs(this.x - i.x - Tile.tamanho/2) < Tile.tamanho/2) {
           i.levar_dano(this.dano);
           this.ativo = false; // Descarta projétil
         }

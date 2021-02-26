@@ -1,6 +1,6 @@
 // Quadradinho/Tijolo do jogo (voxel 2d)
 class Tile {
-  static final float tamanho = 80; // tamanho em pixel do quadrado (provisorio)
+  static final float tamanho = 135; // tamanho em pixel do quadrado (provisorio)
   int num_tile; //posição do tile a respeito do mundo
   float r, g, b; // cores provisorias
   Estrutura estrutura;
