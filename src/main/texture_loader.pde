@@ -66,27 +66,17 @@ class TextureLoaderHelper {
   }
 
   private void carregar_texturas_mina() {
-    String MINA = "Mina.png";
-    this.conjunto_texturas.texturas_minas.add(loadImage(TEXTURA_PATH + MINA));
+    for(int i = 1; i < 4; i++) {
+      String MINA = "Mina_" + i + "_0.png";
+      this.conjunto_texturas.texturas_minas.add(loadImage(TEXTURA_PATH + MINA));
+    }
   }
   
   private void carregar_texturas_torre() {
-
-    //nivel 1 e 2 provisoria
-    for(int j = 0; j < 2; j++) {
-      PImage img = createImage(66, 66, RGB);
-      img.loadPixels();
-      for (int i = 0; i < img.pixels.length; i++) {
-        img.pixels[i] = color(190, 80*j, 200); 
-      }
-      img.updatePixels();
-      this.conjunto_texturas.texturas_torres.add(img);
+    for(int i = 1; i < 4; i++) {
+      String TORRE = "Torre_" + i + "_0.png";
+      this.conjunto_texturas.texturas_torres.add(loadImage(TEXTURA_PATH + TORRE));
     }
-
-    String TORRE = "Torre_3.png";
-    this.conjunto_texturas.texturas_torres.add(loadImage(TEXTURA_PATH + TORRE));
-
-    
   }
 
   private void carregar_texturas_tile() {
