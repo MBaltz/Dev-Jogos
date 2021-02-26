@@ -18,6 +18,7 @@ void setup() {
   orientation(LANDSCAPE); // modo paisagem no celular
   // fullScreen(); // tela cheia
   size(1170, 540);
+  textFont(createFont("Steps-Mono.otf", 20));
   thread("carregar_jogo");
 }
 
