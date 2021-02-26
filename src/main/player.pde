@@ -16,9 +16,12 @@ class Player {
   Mundo mundo_ref;
   double dinheiros_no_bolso;
 
+  boolean andando;
+
   public Player(Mundo mundo_ref) {
 
     this.mundo_ref = mundo_ref;
+    this.andando = false;
 
     this.x_local = Tile.tamanho / 2;
     this.y_local = height / 2 + 70 - (Tile.tamanho/2);
@@ -35,16 +38,19 @@ class Player {
   }
 
   public void atualizar(float dt, float tamanho_x_mapa) {
-
+    this.andando = false;
+    
     if(keyPressed) {
       if(keyCode == LEFT && this.x_local > -tamanho_x_mapa/2){
         this.x_local -= this.velocidade * dt;
         this.direcao = -1;
+        this.andando = true;
       }
 
       if(keyCode == RIGHT && this.x_local < tamanho_x_mapa/2){
         this.x_local += this.velocidade * dt;
         this.direcao = 1;
+        this.andando = true;
       }
 
     }
@@ -61,6 +67,7 @@ class Player {
          && this.x_local > -tamanho_x_mapa/2) {
         this.x_local -= this.velocidade * dt;
         this.direcao = -1;
+        this.andando = true;
       }
 
       //checa se clicou na seta direita
@@ -71,6 +78,7 @@ class Player {
          && this.x_local < tamanho_x_mapa/2) {
         this.x_local += this.velocidade * dt;
         this.direcao = 1;
+        this.andando = true;
       }
     }
 

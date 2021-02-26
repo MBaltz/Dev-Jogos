@@ -1,6 +1,6 @@
 // Mundo: Praticamente ess eé o jogo
 // (contém todas as tiles, a base, o player, inimigo, ...)
-class Mundo {
+class Mundo implements Cloneable {
 
   Base base;
   Player player;
@@ -16,6 +16,10 @@ class Mundo {
   float segundos_dia_atual;
   int dia;
   int num_ini_ultima_orda;
+
+  public Object clone()throws CloneNotSupportedException{
+    return super.clone();
+  }
 
 
   public Mundo(int num_tiles) {
