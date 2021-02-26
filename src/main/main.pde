@@ -82,7 +82,14 @@ void draw() {
 
   if(jogo_carregado) {
     // desenha levando em consideração a posição da camera
-    desenhador.desenhar(mundo, camera_obj);
+
+    try {
+      Mundo mundo_clonado = (Mundo) mundo.clone();
+      desenhador.desenhar(mundo_clonado, camera_obj);
+    } catch(Exception ex) {
+      desenhador.desenhar(mundo, camera_obj);
+    }
+    
     TextureLoader.atualizar();
 
     if(clicado_main) {

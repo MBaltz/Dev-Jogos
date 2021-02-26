@@ -6,17 +6,10 @@ class Desenhador {
 
   private boolean tem_popup;
 
-  public void desenhar(Mundo mundo, Camera camera_obj) {
+  public void desenhar(Mundo mundo_clone, Camera camera_obj) {
 
     this.camera_x = camera_obj.get_pos();
-    // TODO:
-    // a ideia é que mundo clone seja objeto-copia de mundo, e não uma
-    // referência, assim pode mandar pra outra thread sem problemas mas já que
-    // não tem como mandar pra outras thread, pelo menos o acesso pela thread
-    // de atualizar não fica concorrido com essa de desenho, já que ficam dois
-    // objetos distintos na memória (mas isso pode causar um problema de
-    // memória, por isso vamo ficando com a referência do mesmo número por agora)
-    this.mundo_clone = mundo;
+    this.mundo_clone = mundo_clone;
     this.tem_popup = false;
 
     this.desenhar_mundo(this.mundo_clone);
@@ -68,8 +61,6 @@ class Desenhador {
   }
 
   private void desenhar_background() {
-    //TODO: usar o tempo do dia pra escolher o background, fazer um lerp entre eles?
-
     PImage textura = TextureLoader.textura_bg_sol(this.mundo_clone.segundos_dia_atual, this.mundo_clone.segundos_em_um_dia);
     textura.resize(0, (int) (height/2.0 + 70.0));
     image(textura, 0 - this.camera_x - width/2, 0);
