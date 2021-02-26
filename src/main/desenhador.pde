@@ -135,11 +135,21 @@ class Desenhador {
 
     // Baseado na direção que ele anda, reflete no eixo y
 
+
+    PImage textura;
+    
+    if(player.andando) {
+      textura = TextureLoader.textura_player_andando();
+    } else {
+      textura = TextureLoader.textura_player_parado();
+    }
+    
     pushMatrix();
     // se a direção for -1, tudo a respeito do x é invertido, então pra ir um tile pra direita, se tem q substrair um tile
     scale(player.direcao, 1);
-    image(TextureLoader.textura_player(), (player.direcao * player_x) + (player.direcao == -1 ? -Tile.tamanho : 0), player_y, Tile.tamanho, Tile.tamanho);
+    image(textura, (player.direcao * player_x) + (player.direcao == -1 ? -Tile.tamanho : 0), player_y, Tile.tamanho, Tile.tamanho);
     popMatrix();
+
   }
 
   private void desenhar_carteira(Player player) {

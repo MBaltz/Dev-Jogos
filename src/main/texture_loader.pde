@@ -1,5 +1,9 @@
 class TexturePack {
-  public ArrayList<PImage> texturas_player;
+
+  
+  public ArrayList<PImage> texturas_player_andando;
+  public PImage textura_player_parado;
+  
   public ArrayList<PImage> texturas_inimigos;
   public PImage textura_seta_player;
   
@@ -13,7 +17,7 @@ class TexturePack {
 
   
   public TexturePack() {
-    this.texturas_player = new ArrayList<PImage>();
+    this.texturas_player_andando = new ArrayList<PImage>();
     this.texturas_inimigos = new ArrayList<PImage>();
     this.texturas_minas = new ArrayList<PImage>();
     this.texturas_torres = new ArrayList<PImage>();
@@ -44,8 +48,16 @@ class TextureLoaderHelper {
   }
 
   private void carregar_texturas_player() {
-    final String PLAYER = "Personagem.png";
-    this.conjunto_texturas.texturas_player.add(loadImage(TEXTURA_PATH + PLAYER));
+    
+    final String PLAYER_PARADO = "Personagem_Parado.png";
+    this.conjunto_texturas.textura_player_parado = loadImage(TEXTURA_PATH + PLAYER_PARADO);
+
+    for(int i = 3; i <= 6; i++) {
+      String PLAYER_ANDANDO = "Personagem_0" + i + ".png";
+      this.conjunto_texturas.texturas_player_andando.add(loadImage(TEXTURA_PATH + PLAYER_ANDANDO));
+    }
+
+    
   }
 
   private void carregar_texturas_inimigos() {
@@ -101,6 +113,7 @@ class TextureLoaderHelper {
 static class TextureLoader {
 
   public static int ticks_texturas;
+  public static int ticks_acc;
   public static TexturePack texturas;
   
   public static void carregar_texturas(TextureLoaderHelper tmp) {
@@ -109,11 +122,22 @@ static class TextureLoader {
 
   // Pra dar uma impressão de animação
   public static void atualizar() {
-    ticks_texturas = (ticks_texturas + 1) % 255;
+    ticks_acc++;
+
+    if(ticks_acc > 3) {
+      ticks_acc = 0;
+      ticks_texturas = (ticks_texturas + 1) % 255;
+    }
+    
   }
 
-  public static PImage textura_player() {
-    return texturas.texturas_player.get(ticks_texturas % texturas.texturas_player.size());
+  public static PImage textura_player_parado() {
+    return texturas.textura_player_parado;
+  }
+
+  public static PImage textura_player_andando() {
+    println(ticks_texturas);
+    return texturas.texturas_player_andando.get(ticks_texturas % texturas.texturas_player_andando.size());
   }
 
   // por enquanto inimigo só tem 1 tipo
