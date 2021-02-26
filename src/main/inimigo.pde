@@ -13,9 +13,9 @@ class Inimigo {
 
     this.x = x_inicial;
     this.y = height / 2 + 70 - (Tile.tamanho/2);
-    this.vida = 5;
-    this.dano = 0.55;
-    this.velocidade = 10.5;
+    this.vida = 8;
+    this.dano = 0.65;
+    this.velocidade = 17.5;
     this.atacando = false;
     this.morto = false;
     this.decomposicao = 1.0; // Para ir sumindo aos poucos (* alpha)

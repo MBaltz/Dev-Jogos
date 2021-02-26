@@ -60,7 +60,7 @@ class Popup {
 
   private void desenhar_btn_fechar() {
     float tamanho = width / 16;
-    float pos_x = width - tamanho - (width / 32);
+    float pos_x = width - tamanho - (width / 25);
     float pos_y = tamanho;
 
     line(pos_x, pos_y, pos_x + tamanho, pos_y + tamanho);

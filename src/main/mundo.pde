@@ -36,6 +36,11 @@ class Mundo {
     this.segundos_dia_atual = 0;
     this.num_ini_ultima_orda = 3;
 
+    int pos_torre = 3; // Posição da torre gratuita que será gerada
+    if(random(1) > 0.5) {pos_torre *= -1;}
+    int pos_mina = 2;
+    if(random(1) > 0.5) {pos_mina *= -1;}
+
     // Tiles:      0=base
     // [-3, -2, -1, (0), 1, 2, 3, 4]
     for(int i = -num_tiles/2; i < num_tiles/2; i++) {
@@ -45,15 +50,16 @@ class Mundo {
         this.base = t.set_base(); // Cria a base no meio dos tiles
       }
 
-      int pos_torres = 3;
-      if (i == -pos_torres || i == pos_torres) { // duas torres de grátis
+      // Cria uma torre (escolha de lado é aleatória)
+      if (i == pos_torre) { // torre de gratis
         t.set_torre(); // a torre toma conhecimento do mundo
       }
-
-      int pos_minas = 2;
-      if (i == -pos_minas || i == pos_minas) { // duas minas de grátis
-        t.set_mina(Minerio.PEDRA);
+      
+      // Cria uma torre (escolha de lado é aleatória)
+      if (i == pos_mina) { // torre de gratis
+        t.set_mina(Minerio.PEDRA); // a torre toma conhecimento do mundo
       }
+
       this.tiles.add(t);
     }
   }
@@ -89,7 +95,7 @@ class Mundo {
 
     if(this.segundos_dia_atual >= this.segundos_em_um_dia) {
       this.dia += 1; // Oto lindo e ensolarado dia
-      this.segundos_em_um_dia += 2; // O dia fica mais longo 1 segundos
+      this.segundos_em_um_dia += 3; // O dia fica mais longo x segundos
       this.segundos_dia_atual = 0; // Amanhece de novo
       if(this.dia % 2 == 1) { // Spawna inimigo se o dia for ímpar
         this.num_ini_ultima_orda = prox_primo(num_ini_ultima_orda);
@@ -109,7 +115,7 @@ class Mundo {
     int quant_ini_esq = 0; // Para spawnar sem usar tempo
     int quant_ini_dir = 0; // Spawna todos de uma vez, com dst. entre um e outro
     for(int i = 0; i < quant_ini; i++) {
-      if(random(1) > 0.485) { // Probabilidade de spawnar na direita
+      if(random(1) > 0.51) { // Probabilidade de spawnar na direita
         // Spawna inimigo na direita
         this.inimigos.add(new Inimigo(this,
           (this.tamanho_x_mapa/2)+(quant_ini_dir*espaco_inimigos))

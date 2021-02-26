@@ -148,7 +148,7 @@ class Desenhador {
     float largura_carteira = width / 6.3;
     float altura_carteira = width / 27;
     float x_carteira = -largura_carteira/2;
-    float y_carteira = height/5;
+    float y_carteira = height/3.2;
     noFill();
     rect(x_carteira, y_carteira, largura_carteira, altura_carteira);
     textAlign(CENTER, CENTER);
@@ -165,7 +165,7 @@ class Desenhador {
     float largura_carteira = width / 10;
     float altura_carteira = width / 27;
     float x_carteira = -largura_carteira/2;
-    float y_carteira = -height/4;
+    float y_carteira = height/5.5;
     //noFill();
     fill(0);
     rect(x_carteira, y_carteira, largura_carteira, altura_carteira);

@@ -2,7 +2,7 @@ Mundo mundo;
 Desenhador desenhador;
 Camera camera_obj;
 int fps = 300;
-int num_tiles = 30;
+int num_tiles = 26;
 
 boolean jogo_carregado = false;
 String msg_carregamento = "";
@@ -101,15 +101,16 @@ void draw() {
 
 void mostrar_fps() {
     pushMatrix();
-    fill(190);
+    fill(255);
     stroke(255);
-    textSize(12);
-    text("FPS:"+int(frameRate), 20, 12);
+    textSize(18);
+    text("FPS:"+int(frameRate), 32, 15);
     popMatrix();
 }
 
 void desenhar_tela_carregamento() {
   background(0);
+  textSize(36);
   textAlign(CENTER);
   delay(200);
   text(msg_carregamento, width/2, height/2);

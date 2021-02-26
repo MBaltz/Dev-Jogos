@@ -1,7 +1,7 @@
 class Player {
 
   float x_local, y_local;
-  float velocidade = 135;
+  float velocidade = 175;
   int direcao = 1;
 
 
@@ -23,7 +23,7 @@ class Player {
     this.x_local = Tile.tamanho / 2;
     this.y_local = height / 2 + 70 - (Tile.tamanho/2);
 
-    this.dinheiros_no_bolso = 999999; // mt por agora
+    this.dinheiros_no_bolso = 90; // mt por agora
 
     this.seta_largura_img = width / 8;
     this.seta_altura_img = height / 8;
