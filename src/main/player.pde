@@ -2,6 +2,7 @@ class Player {
 
   float x_local, y_local;
   float velocidade = 135;
+  int direcao = 1;
 
 
   float seta_largura_img;
@@ -38,10 +39,12 @@ class Player {
     if(keyPressed) {
       if(keyCode == LEFT && this.x_local > -tamanho_x_mapa/2){
         this.x_local -= this.velocidade * dt;
+        this.direcao = -1;
       }
 
       if(keyCode == RIGHT && this.x_local < tamanho_x_mapa/2){
         this.x_local += this.velocidade * dt;
+        this.direcao = 1;
       }
 
     }
@@ -57,6 +60,7 @@ class Player {
          && y < this.seta_y + this.seta_altura_img
          && this.x_local > -tamanho_x_mapa/2) {
         this.x_local -= this.velocidade * dt;
+        this.direcao = -1;
       }
 
       //checa se clicou na seta direita
@@ -66,6 +70,7 @@ class Player {
          && y < this.seta_y + this.seta_altura_img
          && this.x_local < tamanho_x_mapa/2) {
         this.x_local += this.velocidade * dt;
+        this.direcao = 1;
       }
     }
 

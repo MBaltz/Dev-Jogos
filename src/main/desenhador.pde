@@ -132,7 +132,14 @@ class Desenhador {
 
     float player_x = player.x_local - this.camera_x - (Tile.tamanho/2);
     float player_y = player.y_local - (Tile.tamanho/2);
-    image(TextureLoader.textura_player(), player_x, player_y, Tile.tamanho, Tile.tamanho);
+
+    // Baseado na direção que ele anda, reflete no eixo y
+
+    pushMatrix();
+    // se a direção for -1, tudo a respeito do x é invertido, então pra ir um tile pra direita, se tem q substrair um tile
+    scale(player.direcao, 1);
+    image(TextureLoader.textura_player(), (player.direcao * player_x) + (player.direcao == -1 ? -Tile.tamanho : 0), player_y, Tile.tamanho, Tile.tamanho);
+    popMatrix();
   }
 
   private void desenhar_carteira(Player player) {
