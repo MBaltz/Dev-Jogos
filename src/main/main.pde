@@ -1,11 +1,15 @@
 Mundo mundo;
 Desenhador desenhador;
 Camera camera_obj;
-int fps = 30;
+int fps = 300;
 int num_tiles = 30;
 
 boolean jogo_carregado = false;
 String msg_carregamento = "";
+
+boolean clicado_main  = false;
+float x_clicado_main = 0.0;
+float y_clicado_main = 0.0;
 
 //TODO: usar uma escala dos tamanhos pra mudar os tamanhos de acordo com a resolução
 
@@ -80,6 +84,14 @@ void draw() {
     // desenha levando em consideração a posição da camera
     desenhador.desenhar(mundo, camera_obj);
     TextureLoader.atualizar();
+
+    if(clicado_main) {
+      Entrada.clicar(x_clicado_main, y_clicado_main);
+      x_clicado_main = 0.0;
+      y_clicado_main = 0.0;
+      clicado_main = false;
+    }
+    
   }
   else {
     desenhar_tela_carregamento();
@@ -112,13 +124,16 @@ void mouseDragged() { // apertou e arrastou pra mover a camera
 
 void mouseReleased() {
   if(jogo_carregado) {
-    // melhorar esse sistema de entrada, por algum motivo as vezes não funciona
-    // mas nada que atrapalhe muito a jogabilidade, provavel que seja só uma besteirinha
-    Entrada.clicar(mouseX, mouseY);
+    // já foi melhorado, usar a classe estatica de entrada não funciona tão bem pra cliques
+    // quanto variaveis globais assim, de toda forma, para cliques, é preferivel usar essas
+    // variaveis globais.
+    // com a classe estatica não funciona muito bem por motivos de thread provavelmente
+    // isso levou a uma refatoração do popup que nem precisaria, mas foi até bom, enxugou
+    // o codigo e melhorou a legibilidade
+    clicado_main = true;
+    x_clicado_main = mouseX;
+    y_clicado_main = mouseY;
   }
 }
-
-
-
 
 //
