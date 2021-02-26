@@ -20,19 +20,25 @@ class Torre extends Estrutura {
     this.cadencia = 0.75; // x disparos por segundo
     this.dt_soma_cadencia = 0; // Auxiliador na realização da cadência
     this.nivel = 0;
-    this.alcance = 200; // Alcance de inimigos em pixels
+    this.alcance = 240; // Alcance de inimigos em pixels
   }
 
-  public void melhorar_cadencia() { this.cadencia += 0.2; this.nivel++; }
-  public void melhorar_alcance() { this.alcance += 10; this.nivel++; }
-  public float custo_melhoramento() {  return pow(1.8, this.nivel) * 10; }
+  public void melhorar_cadencia() {
+    this.cadencia += 0.25; this.nivel++;
+    this.vida += 5; // Dá uma reformada na torre
+  }
+  public void melhorar_alcance() {
+    this.alcance += 25; this.nivel++;
+    this.vida += 5; // Dá uma reformada na torre
+  }
+  public float custo_melhoramento() {  return pow(2, this.nivel+1) * 10; }
 
   public void atualizar(float dt) {
     // Atualiza a torre de acordo com os inimigos por perto
     // E também acaba afetando os projéteis, já que a torre pode atirar num inimigo
     this.dt_soma_cadencia += dt;
     if(this.dt_soma_cadencia >= 1/this.cadencia) { // Cadência de disparo
-      this.dt_soma_cadencia = 0; // Reseta somador
+      this.dt_soma_cadencia -= 1/this.cadencia; // Diminui somador
       // Inicializa a variável de inimigo mais próximo da torre
       Inimigo ini_mais_perto = new Inimigo(null, 0); ini_mais_perto.morto = true;
       float dist_ini_perto = 9999999; // Lááá longe

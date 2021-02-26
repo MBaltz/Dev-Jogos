@@ -38,7 +38,8 @@ class Mina extends Estrutura {
   }
 
   public float custo_melhoramento() {
-    return pow(1.8, this.nivel) * 10;
+    // Valor equilibrado dado o valor do minério
+    return pow(1.85, this.nivel+1) * 10 * (this.minerio.valor*1.55);
   }
 
 }

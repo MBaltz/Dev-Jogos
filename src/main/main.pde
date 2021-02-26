@@ -1,8 +1,8 @@
 Mundo mundo;
 Desenhador desenhador;
 Camera camera_obj;
-int fps = 300;
-int num_tiles = 26;
+int fps = 60;
+int num_tiles = 28;
 
 boolean jogo_carregado = false;
 String msg_carregamento = "";
@@ -16,7 +16,7 @@ float y_clicado_main = 0.0;
 void setup() {
   frameRate(fps);
   orientation(LANDSCAPE); // modo paisagem no celular
-  //fullScreen(); // tela cheia
+  // fullScreen(); // tela cheia
   size(1170, 540);
   thread("carregar_jogo");
 }
@@ -91,7 +91,7 @@ void draw() {
       y_clicado_main = 0.0;
       clicado_main = false;
     }
-    
+
   }
   else {
     desenhar_tela_carregamento();

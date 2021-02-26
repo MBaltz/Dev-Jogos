@@ -52,7 +52,6 @@ class Inimigo {
       if(!t.morreu && abs(this.x - t.x) <= Tile.tamanho/2) {
         this.atacando = true; // Para ficar paradinho enquanto ataca
         t.levar_dano(this.dano); // Dá o dano na torre t
-        println(t.vida);
       }
     }
   }

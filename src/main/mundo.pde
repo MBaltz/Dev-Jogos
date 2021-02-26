@@ -25,14 +25,14 @@ class Mundo {
     this.tiles          = new ArrayList<Tile>();
     this.projeteis      = new ArrayList<Projetil>();
 
-    this.seg_limpar_arrays = 5.0;
+    this.seg_limpar_arrays = 8.5;
     this.dt_somador_limpar_arrays = 0.0;
 
     // para calcular borda do mapa
     this.tamanho_x_mapa = num_tiles*Tile.tamanho;
 
     this.dia = 0;
-    this.segundos_em_um_dia = 20;
+    this.segundos_em_um_dia = 22;
     this.segundos_dia_atual = 0;
     this.num_ini_ultima_orda = 3;
 
@@ -54,7 +54,7 @@ class Mundo {
       if (i == pos_torre) { // torre de gratis
         t.set_torre(); // a torre toma conhecimento do mundo
       }
-      
+
       // Cria uma torre (escolha de lado é aleatória)
       if (i == pos_mina) { // torre de gratis
         t.set_mina(Minerio.PEDRA); // a torre toma conhecimento do mundo
@@ -71,7 +71,7 @@ class Mundo {
     // Se chegou a hora de lipar arrays, limpa então :D
     if(this.dt_somador_limpar_arrays > this.seg_limpar_arrays) {
       this.limpar_arrays();
-      this.dt_somador_limpar_arrays = 0;
+      this.dt_somador_limpar_arrays -= this.seg_limpar_arrays;
     }
     dt_somador_limpar_arrays += dt;
 
