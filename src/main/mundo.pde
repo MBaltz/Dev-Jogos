@@ -17,6 +17,8 @@ class Mundo implements Cloneable {
   int dia;
   int num_ini_ultima_orda;
 
+  boolean game_over;
+
   public Object clone()throws CloneNotSupportedException{
     return super.clone();
   }
@@ -45,6 +47,8 @@ class Mundo implements Cloneable {
     int pos_mina = 2;
     if(random(1) > 0.5) {pos_mina *= -1;}
 
+    this.game_over = false;
+
     // Tiles:      0=base
     // [-3, -2, -1, (0), 1, 2, 3, 4]
     for(int i = -num_tiles/2; i < num_tiles/2; i++) {
@@ -71,6 +75,11 @@ class Mundo implements Cloneable {
 
 
   public void atualizar(float dt) {
+
+    if(base.morreu) {
+      this.game_over = true;
+      return;
+    }
 
     // Se chegou a hora de lipar arrays, limpa então :D
     if(this.dt_somador_limpar_arrays > this.seg_limpar_arrays) {

@@ -45,6 +45,24 @@ class Inimigo {
   // Ação do inimigo ao chegar perto de uma torre (atacar)
   private void deve_atacar() {
     this.atacando = false; // Caso a torre esteja derrubada, ele volte ao normal
+    
+    // atacando a base
+    if(abs(this.x) < Tile.tamanho / 4) {
+      println("atacando base");
+      //TODO: escolher valor melhor pro dano da base
+
+      float escala_dinheiro_vida = 10;
+      
+      double vida_do_cofre = this.mundo_ref.base.valor_acumulado / escala_dinheiro_vida;
+      vida_do_cofre -= this.dano;
+      if(vida_do_cofre < 0) {
+        this.mundo_ref.base.morreu = true;
+      }
+
+      this.mundo_ref.base.valor_acumulado = vida_do_cofre * escala_dinheiro_vida;
+      return; // se atacou a base, não precisa atacar mais nada em volta
+    }
+    
     for(Tile tile : this.mundo_ref.tiles) {
       Estrutura estrutura = tile.estrutura;
       if(estrutura == null || estrutura.tipo != Tipo_Estrutura.TORRE) { continue; }

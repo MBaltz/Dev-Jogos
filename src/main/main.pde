@@ -62,6 +62,10 @@ void carregar_jogo() {
 void atualizar() {
   float prev = 0, atual = 0;
   while(true) {
+    
+    if(mundo.game_over) {
+      break;
+    }
 
     // Alguém pediu pra fechar o jogo?
     if(Entrada.pediu_pra_fechar) {
@@ -79,6 +83,11 @@ void atualizar() {
 
 void draw() {
   background(0);
+  
+  if(mundo.game_over) {
+    desenhar_tela_game_over();
+    return;
+  }
 
   if(jogo_carregado) {
     // desenha levando em consideração a posição da camera
@@ -122,6 +131,15 @@ void desenhar_tela_carregamento() {
   delay(200);
   text(msg_carregamento, width/2, height/2);
 }
+
+void desenhar_tela_game_over() {
+  background(0);
+  textSize(36);
+  textAlign(CENTER);
+  delay(200);
+  text("Merreu/faliu", width/2, height/2); //TODO: melhorar tela de game over
+}
+
 
 void mouseDragged() { // apertou e arrastou pra mover a camera
   if(jogo_carregado) {
