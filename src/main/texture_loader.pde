@@ -136,7 +136,6 @@ static class TextureLoader {
   }
 
   public static PImage textura_player_andando() {
-    println(ticks_texturas);
     return texturas.texturas_player_andando.get(ticks_texturas % texturas.texturas_player_andando.size());
   }
 
