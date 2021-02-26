@@ -1,6 +1,6 @@
 class Inimigo {
 
-  float x, y, vida, velocidade, dano, decomposicao;
+  float x, y, vida, velocidade, dano, decomposicao, cadencia_ataque, dt_soma_cadencia;
   // Quando o inimigo está atacando, ele está parado e dando dano
   boolean atacando;
   boolean morto; // Ele não precisa necessariamente sumir do nada
@@ -14,8 +14,10 @@ class Inimigo {
     this.x = x_inicial;
     this.y = height / 2 + 70 - (Tile.tamanho/2);
     this.vida = 8;
-    this.dano = 0.65;
-    this.velocidade = 17.5;
+    this.dano = 1;
+    this.cadencia_ataque = 2; // 1seg/cadencia
+    this.dt_soma_cadencia = 0;
+    this.velocidade = 17.0;
     this.atacando = false;
     this.morto = false;
     this.decomposicao = 1.0; // Para ir sumindo aos poucos (* alpha)
@@ -24,7 +26,11 @@ class Inimigo {
 
   // Utiliza as torres para verificar se está na hora de atacar
   public void atualizar(float dt) {
-    this.deve_atacar();
+    this.dt_soma_cadencia += dt;
+    if(this.dt_soma_cadencia >= 1/this.cadencia_ataque) {
+      this.deve_atacar(); // Verifica se deve atacar ou parar de atacar
+      this.dt_soma_cadencia -= 1/this.cadencia_ataque; // Diminui somados
+    }
     if(!this.atacando && !this.morto) { // Caso ele possa andar
       float passo = dt * this.velocidade;
       if(this.x > 0) {passo *= -1;} // base em x=0, inimigo pode vim de + ou - x
@@ -46,6 +52,7 @@ class Inimigo {
       if(!t.morreu && abs(this.x - t.x) <= Tile.tamanho/2) {
         this.atacando = true; // Para ficar paradinho enquanto ataca
         t.levar_dano(this.dano); // Dá o dano na torre t
+        println(t.vida);
       }
     }
   }
