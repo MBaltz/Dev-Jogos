@@ -16,8 +16,8 @@ float y_clicado_main = 0.0;
 void setup() {
   frameRate(fps);
   orientation(LANDSCAPE); // modo paisagem no celular
-   //fullScreen(); // tela cheia
-  size(1170, 540);
+  fullScreen(); // tela cheia
+  // size(1170, 540);
   textFont(createFont("Steps-Mono.otf", 20));
   thread("carregar_jogo");
 }
@@ -121,7 +121,7 @@ void mostrar_fps() {
     fill(255);
     stroke(255);
     textSize(18);
-    text("FPS:"+int(frameRate), 32, 15);
+    //text("FPS:"+int(frameRate), 32, 15);
     popMatrix();
 }
 
