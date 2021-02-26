@@ -67,9 +67,12 @@ class Popup {
     line(pos_x + tamanho, pos_y, pos_x, pos_y + tamanho);
     rect(pos_x, pos_y, tamanho, tamanho);
 
-    if(Entrada.clicado()) {
-      if(!(Entrada.clique_x > pos_x && Entrada.clique_x < pos_x + tamanho)) { return; }
-      if(!(Entrada.clique_y > pos_y && Entrada.clique_y < pos_y + tamanho)) { return; }
+    if(clicado_main) {
+      float mx = x_clicado_main;
+      float my = y_clicado_main;
+
+      if(!(mx > pos_x && mx < pos_x + tamanho)) { return; }
+      if(!(my > pos_y && my < pos_y + tamanho)) { return; }
 
       Entrada.limpar_clique();
       this.deve_fechar = true;
