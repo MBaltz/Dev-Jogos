@@ -1,6 +1,6 @@
 class Inimigo {
 
-  float x, y, vida, velocidade, dano, decomposicao, cadencia_ataque, dt_soma_cadencia;
+  float x, y, vida, velocidade, dano, decomposicao, cadencia_ataque, dt_soma_cadencia, vida_max;
   // Quando o inimigo está atacando, ele está parado e dando dano
   boolean atacando;
   boolean morto; // Ele não precisa necessariamente sumir do nada
@@ -14,6 +14,7 @@ class Inimigo {
     this.x = x_inicial;
     this.y = height / 2 + 70 - (Tile.tamanho/2);
     this.vida = 8;
+    this.vida_max = 8;
     this.dano = 1;
     this.cadencia_ataque = 2; // 1seg/cadencia
     this.dt_soma_cadencia = 0;

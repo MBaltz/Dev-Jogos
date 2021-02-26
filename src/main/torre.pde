@@ -1,6 +1,6 @@
 class Torre extends Estrutura {
 
-  float vida, cadencia, alcance, dt_soma_cadencia;
+  float vida, cadencia, alcance, dt_soma_cadencia, vida_max;
   int nivel; // Níveis de desenvolvimento da torre
   // Quando a torre morre, ela não precisa necessariamente sumir de vez
   int idx_tile;
@@ -17,6 +17,7 @@ class Torre extends Estrutura {
     this.x  = x_inicial * Tile.tamanho;
     this.y = height/2 + 20;
     this.vida = 20;
+    this.vida_max = 20;
     this.cadencia = 0.75; // x disparos por segundo
     this.dt_soma_cadencia = 0; // Auxiliador na realização da cadência
     this.nivel = 0;

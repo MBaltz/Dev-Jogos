@@ -112,6 +112,16 @@ class Desenhador {
     tint(255, 255*inimigo.decomposicao);
     image(TextureLoader.textura_inimigo(), inimigo_x, inimigo_y, Tile.tamanho, Tile.tamanho);
     tint(255, 255);
+
+    // desenhando barrinha de vida
+    pushMatrix();
+    strokeWeight(1);
+    fill(255, 0, 0);
+    rect(inimigo_x, inimigo_y - (Tile.tamanho / 9), Tile.tamanho * (inimigo.vida / inimigo.vida_max), Tile.tamanho / 9);
+    popMatrix();
+
+
+    
   }
 
   private void desenhar_player(Player player) {
@@ -249,9 +259,20 @@ class Desenhador {
       return false;
     }
 
+    float torre_x = x;
+    float torre_y = y - 2*Tile.tamanho;
+    
     tint(255, 255*torre.decomposicao);
     image(TextureLoader.textura_torre(torre.nivel), x, y - 2*Tile.tamanho, Tile.tamanho, 2*Tile.tamanho);
     tint(255, 255);
+
+    // desenhando barrinha de vida
+    pushMatrix();
+    strokeWeight(1);
+    fill(0, 255, 0);
+    rect(torre_x, torre_y - (Tile.tamanho / 9), Tile.tamanho * (torre.vida / torre.vida_max), Tile.tamanho / 9);
+    popMatrix();
+    
     return false;
   }
 
